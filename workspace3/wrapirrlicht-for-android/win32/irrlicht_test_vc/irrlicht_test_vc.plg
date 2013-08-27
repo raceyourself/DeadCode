@@ -1,0 +1,44 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: irrlicht_test_vc - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/irrlicht_test_vc.res" /d "_DEBUG" "E:\andriod\irrlicht\wrapirrlicht\irrlicht_test_vc\irrlicht_test_vc.rc"" 
+Creating temporary file "C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91D.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/irrlicht_test_vc.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\andriod\irrlicht\wrapirrlicht\irrlicht_test_vc\irrlicht_test_vc.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91D.tmp" 
+Creating temporary file "C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91E.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/irrlicht_test_vc.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\andriod\irrlicht\wrapirrlicht\irrlicht_test_vc\StdAfx.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91E.tmp" 
+Creating temporary file "C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91F.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/irrlicht_test_vc.pdb" /debug /machine:I386 /out:"Debug/irrlicht_test_vc.exe" /pdbtype:sept 
+.\Debug\StdAfx.obj
+.\Debug\irrlicht_test_vc.res
+.\Debug\irrlicht_test_vc.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\lhm\LOCALS~1\Temp\RSP91F.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+irrlicht_test_vc.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+irrlicht_test_vc.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

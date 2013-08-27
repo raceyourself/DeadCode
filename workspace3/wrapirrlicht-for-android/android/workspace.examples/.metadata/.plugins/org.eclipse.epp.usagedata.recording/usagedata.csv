@@ -1,0 +1,14 @@
+what,kind,bundleId,bundleVersion,description,time
+started,bundle,org.eclipse.jst.ws.jaxrs.core,1.0.301.v201108240656,"org.eclipse.jst.ws.jaxrs.core",1329645666929
+started,bundle,org.eclipse.ltk.core.refactoring,3.5.201.r371_v20110824-0800,"org.eclipse.ltk.core.refactoring",1329645667585
+started,bundle,org.eclipse.ltk.ui.refactoring,3.6.0.v20110505-0800,"org.eclipse.ltk.ui.refactoring",1329645667741
+started,bundle,org.eclipse.jpt.common.core,1.0.1.v201108080010,"org.eclipse.jpt.common.core",1329645669710
+started,bundle,org.eclipse.jpt.jpa.core,3.0.1.v201109073010,"org.eclipse.jpt.jpa.core",1329645669741
+started,bundle,org.eclipse.jdt.apt.core,3.3.500.v20110420-1015,"org.eclipse.jdt.apt.core",1329645672538
+deactivated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1329645681179
+activated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1329645751100
+deactivated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1329645752163
+activated,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1329645753694
+closed,workbench,org.eclipse.ui.workbench,3.7.0.I20110519-0100,"",1329645753913
+started,bundle,org.eclipse.compare.core,3.5.200.I20110208-0800,"org.eclipse.compare.core",1329645755272
+started,bundle,org.eclipse.compare,3.5.201.R37x_v20110817-0800,"org.eclipse.compare",1329645755319

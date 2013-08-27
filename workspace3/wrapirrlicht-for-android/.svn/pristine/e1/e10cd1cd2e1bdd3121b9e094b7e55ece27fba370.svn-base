@@ -1,0 +1,208 @@
+package com.srpirrlicht.helloworld;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Hashtable;
+
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.opengl.GLES20;
+import android.opengl.GLSurfaceView;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
+import android.view.inputmethod.*; 
+import android.app.*;
+
+import com.srplab.www.starcore.*;
+
+class GLESRenderView extends GLSurfaceView {    
+	GLESRender _renderer;
+	
+	public GLESRenderView(Context context,Application application,AssetManager assetManager){        
+		super(context);                
+		// Create an OpenGL ES 2.0 context.        
+		setEGLContextClientVersion(2);        
+		// Set the Renderer for drawing on the GLSurfaceView    
+		_renderer = new GLESRender(this,application,assetManager);
+		setRenderer(_renderer);    
+		setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
+	}
+	
+    @Override public void onPause() {
+    	super.onPause(); 
+   	    queueEvent(new Runnable() {
+   	        public void run() {
+   	            _renderer.onPause();
+   	        }
+   	    });  
+	}
+
+    @Override  public void onResume() {
+    	super.onResume(); 
+   	    queueEvent(new Runnable() {
+   	        public void run() {
+   	            _renderer.onResume();
+   	        }
+   	    });
+	}
+}
+
+public class GLESRender implements GLSurfaceView.Renderer { 
+	GLESRenderView RenderView;
+	Application    MyApplication;
+	AssetManager   assetManager;
+	boolean        InitFlag;
+	
+	boolean        AndroidVersion;   
+    public int GetRenderWnd(){
+   	    return 0;
+    }
+	public void DispatchStarCoreMsg(){
+		if( AndroidVersion == true ){
+		    while( starcore._SRPDispatch(false) == true );
+		}
+	}
+    public void SetDeviceTimer(){    	
+    	// for windows 
+    	if( AndroidVersion == false ){
+	    	Device._SetTimer(1,"TimerProc", 0, 0 );    	
+	    }
+	}
+	public void onDrawFrame(GL10 unused) {
+		if( Device == null )
+			return;
+		// Redraw background color    
+		Device._Call("Lua_Render");
+		DispatchStarCoreMsg();
+	}        
+	public void onSurfaceChanged(GL10 unused, int width, int height) {        
+		Device._Call("Lua_SetSize",width,height);
+	}
+	
+	void onPause(){
+		Device._Call("Pause");
+	}
+
+	void onResume(){
+	}		
+    //--------------------------------------------------------------------------------------------------------
+    String ServicePath;    
+    
+    StarCoreFactory starcore;
+    StarSrvGroupClass SrvGroup;
+    StarServiceClass Service;
+    
+	StarObjectClass Device = null;
+	
+	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
+		if( InitFlag == true ){
+			Device._Call("Resume");			
+			return;
+		}
+		InitFlag = true;
+		starcore= StarCoreFactory.GetFactory();	
+		SrvGroup = starcore._GetSrvGroup(0);
+        try{
+        	String xmlbuf;
+        	
+	       	InputStream dataSource = assetManager.open("SRPFSEngine.xml");
+	       	int size=dataSource.available();
+	       	byte[] buffer=new byte[size]; 
+	       	dataSource.read(buffer); 
+	       	dataSource.close();        
+	       	xmlbuf=new String(buffer);
+	       	SrvGroup._ImportServiceFromXmlBuf(xmlbuf, true);
+	       	
+	       	dataSource = assetManager.open("SRPIrrlichtES2Engine.xml");
+	       	size=dataSource.available();
+	       	buffer=new byte[size]; 
+	       	dataSource.read(buffer); 
+	       	dataSource.close();        
+	       	xmlbuf=new String(buffer);
+	       	SrvGroup._ImportServiceFromXmlBuf(xmlbuf, true);	       	
+	    }
+	    catch(IOException e ){
+	    }   
+        SrvGroup._CreateService( "","RemoteCallServer", "123",5,0,0,0,0,0,"" );
+        Service = SrvGroup._GetService("root","123");
+    	Device=Service._GetObject("IrrDeviceClass")._New()._Assign(new StarObjectClass(){
+            public void TimerProc(StarObjectClass self,int TimerID,int Arg1,int Arg2){
+            	onDrawFrame(null);
+            }
+    	});
+    	Device._Set("Width",800);
+    	Device._Set("Height",480);
+    	Device._Set("RenderWnd",GetRenderWnd());
+    	Device._Set("Color",255); //0x7F7F7F7F);
+    	SetDeviceTimer();
+    	Device._Active();
+        //--------------------------------------------------------------------------------
+        //--your code begin here
+        InitGame();       
+	}      
+	
+    //--------------------------------------------------------------------------------
+	public GLESRender(GLESRenderView context,Application application,AssetManager In_assetManager){
+		RenderView = context;
+		MyApplication = application;
+		assetManager = In_assetManager;
+    	InitFlag = false;
+    	AndroidVersion = false;
+    	if( AndroidVersion == false ){
+		    ServicePath = "";
+		}else{
+			if( StarCoreFactoryPath.StarCoreOperationPath != null ){
+				ServicePath = StarCoreFactoryPath.StarCoreOperationPath + "/";
+			}else{
+				ServicePath = "";
+			}
+		}	
+	}	
+	//--------------------------------------------------------------------------------
+	//--your code begin here
+	StarObjectClass VDiskDrive;
+	StarObjectClass SceneManager,VideoDriver;
+	StarObjectClass Texture1,Node,Cam;
+		
+	private void InitGame() {
+		VDiskDrive = Service._GetObject("DriveClass")._New("VDisk")._Assign(new StarObjectClass(){
+        	public Object[] OnRead(StarObjectClass self,Hashtable Ev,String FileName,Object BinBuf){
+                byte[] buffer = new byte[1024];                
+                try{
+                	InputStream dataSource = assetManager.open(FileName);
+                	int readLen = 0;  
+    	            while((readLen = dataSource.read(buffer)) != -1){  
+    	            	((StarBinBufClass)BinBuf)._Write(((StarBinBufClass)BinBuf)._Getint("_Offset"),buffer,readLen);
+    	            }           
+                }
+                catch(IOException e ){
+                }             	            
+                return null;
+            }
+        });		
+		VDiskDrive._Call("Lua_LoadWebFile","sydney.bmp","sydney.bmp","","","");
+		VDiskDrive._Call("Lua_LoadWebFile","sydney.md2","sydney.md2","","","");
+                
+        SceneManager = (StarObjectClass)Device._Call("Lua_GetSceneManager");
+        VideoDriver = (StarObjectClass)Device._Call("Lua_GetVideoDriver");
+
+        Texture1 = Service._GetObject("IrrTextureClass")._New();
+        Texture1._Set("TextureFile","VDisk:\\sydney.bmp");
+        Texture1._Active();
+    
+        Node = Service._GetObject("IrrAnimatedMeshSceneNodeClass")._New(SceneManager);
+        Node._Set("MeshFile","VDisk:\\sydney.md2");
+        Node._Set("MD2AnimationType",Service._Get("IRREMAT_STAND"));
+        Node._Active();
+        Node._Call("Lua_SetMaterialFlag",Service._Get("IRREMF_LIGHTING"), false);
+        Node._Call("Lua_SetMaterialTexture", 0, Texture1 );
+    
+        Cam = Service._GetObject("IrrCameraSceneNodeClass")._New(SceneManager);
+        Cam._Set("Position",new Object[]{0,30,-40});
+        Cam._Set("Target",new Object[]{0,15,0});
+        Cam._Active();
+	}	 
+}

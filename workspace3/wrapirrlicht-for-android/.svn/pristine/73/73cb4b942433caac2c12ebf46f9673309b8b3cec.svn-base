@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<service ID="d52a1620-6a1c-401b-9c31-826793086683" Password="123" Name="SRPIrrlichtES2Engine">
+    <import>
+        <SRPFSEngine />
+    </import>
+    <module>
+        <SRPIrrlichtES2EngineBasicModule ID="73e4254e-1fed-4d15-970a-0756a39521ea" />
+    </module>
+    <macro>
+        <IRRMD2_ANIMATION_TYPE>
+            <IRREMAT_STAND Value="0" />
+            <IRREMAT_RUN Value="1" />
+            <IRREMAT_ATTACK Value="2" />
+            <IRREMAT_PAIN_A Value="3" />
+            <IRREMAT_PAIN_B Value="4" />
+            <IRREMAT_PAIN_C Value="5" />
+            <IRREMAT_JUMP Value="6" />
+            <IRREMAT_FLIP Value="7" />
+            <IRREMAT_SALUTE Value="8" />
+            <IRREMAT_FALLBACK Value="9" />
+            <IRREMAT_WAVE Value="10" />
+            <IRREMAT_POINT Value="11" />
+            <IRREMAT_CROUCH_STAND Value="12" />
+            <IRREMAT_CROUCH_WALK Value="13" />
+            <IRREMAT_CROUCH_ATTACK Value="14" />
+            <IRREMAT_CROUCH_PAIN Value="15" />
+            <IRREMAT_CROUCH_DEATH Value="16" />
+            <IRREMAT_DEATH_FALLBACK Value="17" />
+            <IRREMAT_DEATH_FALLFORWARD Value="18" />
+            <IRREMAT_DEATH_FALLBACKSLOW Value="19" />
+            <IRREMAT_BOOM Value="20" />
+        </IRRMD2_ANIMATION_TYPE>
+        <IRRMATERIAL_FLAG>
+            <IRREMF_WIREFRAME Value="1" />
+            <IRREMF_POINTCLOUD Value="2" />
+            <IRREMF_GOURAUD_SHADING Value="4" />
+            <IRREMF_LIGHTING Value="8" />
+            <IRREMF_ZBUFFER Value="16" />
+            <IRREMF_ZWRITE_ENABLE Value="32" />
+            <IRREMF_BACK_FACE_CULLING Value="64" />
+            <IRREMF_FRONT_FACE_CULLING Value="128" />
+            <IRREMF_BILINEAR_FILTER Value="256" />
+            <IRREMF_TRILINEAR_FILTER Value="512" />
+            <IRREMF_ANISOTROPIC_FILTER Value="1024" />
+            <IRREMF_FOG_ENABLE Value="2048" />
+            <IRREMF_NORMALIZE_NORMALS Value="4096" />
+            <IRREMF_TEXTURE_WRAP Value="8192" />
+            <IRREMF_ANTI_ALIASING Value="16384" />
+            <IRREMF_COLOR_MASK Value="32767" />
+            <IRREMF_COLOR_MATERIAL Value="65536" />
+        </IRRMATERIAL_FLAG>        
+    </macro>
+    <struct>
+        <SRP3DVector ID="e41ba4f5-ef8f-477d-9c03-dafe387f04f9">
+            <X Type="VS_FLOAT" />
+            <Y Type="VS_FLOAT" />
+            <Z Type="VS_FLOAT" />
+        </SRP3DVector>
+    </struct>
+    <sysrootitem>
+        <BasicServiceItem ID="66d95cfa-ab44-481c-af86-101339687bf0" NameID="71f6f33e-04b2-47cb-9487-092870c8e201">
+            <object>
+                <IrrDeviceClass ID="bb11872b-ae5e-45b7-8fd6-a0d009d1bb5d" SysEvent="true">
+                    <attribute>
+                        <Color Type="VS_COLOR" Default="" EditType="3" />
+                        <Width Type="VS_INT32" Default="800" />
+                        <Height Type="VS_INT32" Default="600" />
+                        <RenderWnd Type="VS_ULONG" SyncFlag="1" Default="" />
+                    </attribute>
+                    <function>
+                        <GetCurDevice ID="fb76adbd-13ec-423b-a7ea-f8434bf6823c">
+                            <output Type="void *" />
+                        </GetCurDevice>
+                        <Lua_GetCurDevice Type="luafunc" Desc="Driver=Lua_GetCurDevice()" ID="28d4732e-e36e-434a-a838-b9b29f17dc1a" />
+                        <Render ID="8e2b73ef-f63f-460b-bf1d-b137441e666c" />
+                        <Lua_Render Type="luafunc" Desc="Driver=Lua_Render()" ID="3721f1ec-2410-4547-99f0-f10e4223eccd" />
+                        <SetSize ID="907bc8de-b855-4915-b059-8f25bd9b6e69">
+                            <input Name="Width" Type="VS_INT32" />
+                            <input Name="Height" Type="VS_INT32" />
+                        </SetSize>
+                        <Lua_SetSize Type="luafunc" Desc="Lua_SetSize(Width,Height)" ID="e7e2e837-0889-4456-aaa0-b6a9bc2464e4" />
+                        <GetSceneManager ID="452e634c-f747-4297-87fa-2aa6ce626aa9">
+                            <output Type="void *" />
+                        </GetSceneManager>
+                        <Lua_GetSceneManager Type="luafunc" Desc="SceneManager=Lua_GetSceneManager()" ID="6c94da83-c6f6-4504-b857-d15b8b83a217" />
+                        <GetVideoDriver ID="50940e3d-8996-4934-9323-613c5ae89fb3">
+                            <output Type="void *" />
+                        </GetVideoDriver>
+                        <Lua_GetVideoDriver Type="luafunc" Desc="Driver=Lua_GetVideoDriver()" ID="5020226e-112c-4c2b-aa81-a41a73aeb548" />
+                        <GetFileSystem ID="80c9c36c-fa1b-4220-9efd-8fe611596375">
+                            <output Type="void *" />
+                        </GetFileSystem>
+                        <Lua_GetFileSystem Type="luafunc" Desc="FileSystem=Lua_GetFileSystem()" ID="731d0186-19d7-4bd0-a3ec-d9a63ce4365c" />
+                    </function>
+                </IrrDeviceClass>
+                <IrrObjectClass ID="b8232694-08b3-4252-b5b5-505bbea6e898" SysEvent="true">
+                    <attribute>
+                        <WrapIrrFlag Type="VS_BOOL" Default="" EditType="1" />
+                    </attribute>
+                    <function>
+                        <SetIrrObject ID="06463b32-ee32-41f6-90f8-4341fceb0218">
+                            <input Name="IrrObject" Type="void *" />
+                        </SetIrrObject>
+                        <GetIrrObject ID="cb1ab9d1-3f46-4868-b500-26595f70571d">
+                            <output Type="void *" />
+                        </GetIrrObject>
+                        <SetIrrParentSceneNode CantOvl="0" ID="ba4ee867-d15d-4574-a25b-0b18990db510">
+                            <input Name="IrrParentObject" Type="void *" />
+                        </SetIrrParentSceneNode>
+                        <OnIrrActivating CallBack="true" ID="95d224eb-2883-4367-895c-1a5051c0b566">
+                            <output Type="VS_BOOL" />
+                        </OnIrrActivating>
+                    </function>
+                </IrrObjectClass>
+                <IrrShaderMaterialTypeClass ID="89759ed9-c49e-4c6c-aeb4-611d0e70cf1c" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <VertexFileName Type="VS_VSTRING" Default="" />
+                        <PixelFileName Type="VS_VSTRING" Default="" />
+                        <CallBackName Type="VS_VSTRING" Default="" Desc="$..ObjectName @..ObjectID" />
+                        <BaseMaterial Type="VS_INT32" Default="" EditType="1" />
+                    </attribute>
+                    <function>
+                        <SetMaterialType ID="9fcb1597-bc6b-4957-af53-e2f7d9c982d0">
+                            <input Name="Type" Type="VS_INT32" />
+                        </SetMaterialType>
+                        <GetMaterialType ID="09a10ccf-5ea8-49a9-bedf-72865d88da24">
+                            <output Type="VS_INT32" />
+                        </GetMaterialType>
+                    </function>
+                    <outevent>
+                        <OnChange Dynamic="true" ID="c6a2e341-0426-4bdd-aba1-8986625d6ec9" />
+                    </outevent>
+                </IrrShaderMaterialTypeClass>
+                <IrrSceneNodeClass ID="f6670b93-492a-4777-9d67-ccf813a3775a" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <Position Type="struct SRP3DVector" NotifyFlag="2" Default="" />
+                        <Rotation Type="struct SRP3DVector" NotifyFlag="2" Default="" />
+                        <Scale Type="struct SRP3DVector" NotifyFlag="2" Default="" />
+                        <Visible Type="VS_BOOL" NotifyFlag="2" Default="1" EditType="1" />
+                        <AutomaticCullingState Type="VS_INT32" Default="1" EditType="1" />
+                        <Id Type="VS_INT32" Default="-1" />
+                        <SceneNodeList Type="void *" Class="IrrSceneNodeClass" Default="" />
+                        <MaterialList Type="void *" Default="" />
+                        <TextureList Type="void *" Class="IrrTextureClass" Default="" />
+                        <MeshList Type="void *" Default="" />
+                        <AnimatorList Type="void *" Default="" />
+                        <SelectorList Type="void *" Default="" />
+                    </attribute>
+                    <function>
+                        <SetIrrParentSceneNode Type="ovlfunc SetIrrParentSceneNode" CantOvl="0" ID="7055c5f8-aad3-4723-9e3f-a72dbc63252c" />
+                        <GetSceneManager ID="647ba1c3-a28d-491f-8d4a-6216b2bab866">
+                            <output Type="void *" />
+                        </GetSceneManager>
+                        <Lua_GetSceneManager Type="luafunc" Desc="Manager = Lua_GetSceneManager()" ID="93ea1945-9b76-4e61-a311-8baec9e40bd2" />
+                        <SetMaterialTexture ID="606a4ddc-8991-48e6-8431-12e8cf9cdda5">
+                            <input Name="TextureLayer" Type="VS_UINT32" />
+                            <input Name="IrrTexture" Type="void *" />
+                        </SetMaterialTexture>
+                        <Lua_SetMaterialTexture Type="luafunc" Desc="Lua_SetMaterialTexture(TextuerLayer,IrrTextuer)" ID="2dca2f98-ef44-43a3-88c4-6b69022eb74c" />
+                        <SetMaterialTextureEx ID="e9a4746e-37b2-494c-8daf-e9ca423bf795">
+                            <input Name="TextureLayer" Type="VS_UINT32" />
+                            <input Name="TextureFile" Type="VS_CHAR *" />
+                        </SetMaterialTextureEx>
+                        <Lua_SetMaterialTextureEx Type="luafunc" Desc="Lua_SetMaterialTextureEx(TextureLayer,TextureFile)" ID="647aee19-c00c-4c2c-a67a-c177fbef4e59" />
+                        <SetMaterialFlag ID="3b17bcd3-5321-4b9e-b8b3-77828cb0bd7c">
+                            <input Name="Flag" Type="VS_INT32" />
+                            <input Name="NewValue" Type="VS_BOOL" />
+                        </SetMaterialFlag>
+                        <Lua_SetMaterialFlag Type="luafunc" Desc="Lua_SetMaterialFlag(Flag,Bool NewValue)" ID="8f847418-e04a-43f6-979e-ab63049d25df" />
+                        <SetMaterialType ID="cf81fccd-1df6-40bd-9aa7-852564a9e70f">
+                            <input Name="NewType" Type="VS_INT32" />
+                        </SetMaterialType>
+                        <Lua_SetMaterialType Type="luafunc" Desc="Lua_SetMaterialType(NewType)" ID="ad627b6d-4ae4-4701-914e-323915eb7e9a" />
+                    </function>
+                    <outevent>
+                        <OnIrrInit ID="f463ab42-7181-4cdb-b080-d223a08dca7e" />
+                    </outevent>
+                </IrrSceneNodeClass>
+                <IrrMaterialClass ID="85cc652c-9497-4031-8814-61c83be78b08" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <MaterialType Type="VS_INT32" Default="" EditType="1" />
+                        <AmbientColor Type="VS_COLOR" Default="4294967295" EditType="3" />
+                        <DiffuseColor Type="VS_COLOR" Default="4294967295" EditType="3" />
+                        <EmissiveColor Type="VS_COLOR" Default="" EditType="3" />
+                        <SpecularColor Type="VS_COLOR" Default="4294967295" EditType="3" />
+                        <Shininess Type="VS_FLOAT" Default="" />
+                        <MaterialTypeParam Type="VS_FLOAT" Default="" />
+                        <MaterialTypeParam2 Type="VS_FLOAT" Default="" />
+                        <Thickness Type="VS_FLOAT" Default="1.0" />
+                        <Wireframe Type="VS_BOOL" Default="" EditType="1" />
+                        <PointCloud Type="VS_BOOL" Default="" EditType="1" />
+                        <GouraudShading Type="VS_BOOL" Default="1" EditType="1" />
+                        <Lighting Type="VS_BOOL" Default="1" EditType="1" />
+                        <ZWriteEnable Type="VS_BOOL" Default="1" EditType="1" />
+                        <BackfaceCulling Type="VS_BOOL" Default="1" EditType="1" />
+                        <FogEnable Type="VS_BOOL" Default="" EditType="1" />
+                        <NormalizeNormals Type="VS_BOOL" Default="" EditType="1" />
+                        <ZBuffer Type="VS_UINT32" Default="1" />
+                    </attribute>
+                    <function>
+                        <SetTexture ID="f73866c5-0064-4b1c-8c2d-3618f35f57d0">
+                            <input Name="TextureLayer" Type="VS_UINT32" />
+                            <input Name="IrrTexture" Type="void *" />
+                        </SetTexture>
+                        <Lua_SetTexture Type="luafunc" Desc="Lua_SetTexture(TextuerLayer,IrrTextuer)" ID="5ffd7d0d-9c40-4199-8408-d76a22d5ec00" />
+                        <SetShaderMaterialType ID="b1f42383-b986-4b68-8f30-a8da805066c7">
+                            <input Name="ShaderMaterialTypeObject" Type="void *" />
+                        </SetShaderMaterialType>
+                        <Lua_SetShaderMaterialType Type="luafunc" Desc="Lua_SetShaderMaterialType(ShaderMaterialTypeObject)" ID="b55ff022-178e-4598-906d-5109581e350c" />
+                    </function>
+                    <outevent>
+                        <OnIrrInit Dynamic="true" ID="ae565675-8ff8-4ff1-abf9-3d166bf53108" />
+                        <OnChange Dynamic="true" ID="7cc1c21f-fe92-495b-9670-19b3b4ccf21b" />
+                    </outevent>
+                </IrrMaterialClass>
+                <IrrTextureClass ID="0b4ad3f3-4ee8-40c5-ba16-ffbaabc997f9" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <TextureFile Type="VS_VSTRING" NotifyFlag="3" Default="" />
+                        <LoadResult Type="VS_BOOL" SyncFlag="1" Default="" EditType="1" />
+                    </attribute>
+                    <function>
+                        <OnBeforeCreate CantOvl="0" ID="a72aaa34-e448-43a7-8f8b-2dd01eb0215d" />
+                        <OnAfterCreate ID="b4b9c9f7-e8c8-485c-b2ad-2985a87da288" />
+                        <TriggerChangeEvent ID="f89f0ced-dd0b-43c9-b158-ac63813c5fa5" />
+                        <Lua_TriggerChangeEvent Type="luafunc" Desc="Lua_TriggerChangeEvent()" ID="c040457a-e940-4f91-a451-142a91645f40" />
+                        <SetIrrTexture ID="de923911-d616-4d60-a708-58c1fb264b92">
+                            <input Name="IrrTexturePtr" Type="void *" />
+                        </SetIrrTexture>
+                    </function>
+                    <outevent>
+                        <OnChange Dynamic="true" ID="20f88386-a52d-40bf-b980-42c99d245f95" />
+                    </outevent>
+                </IrrTextureClass>
+                <IrrSceneManagerClass ID="36bc8983-a99d-4a7b-9401-6a89d9d99d88" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <SceneNodeList Type="void *" Class="IrrSceneNodeClass" Default="" />
+                        <TextureList Type="void *" Class="IrrTextureClass" Default="" />
+                        <MeshList Type="void *" Default="" />
+                        <MaterialList Type="void *" Default="" />
+                        <AnimatorlList Type="void *" Default="" />
+                    </attribute>
+                </IrrSceneManagerClass>
+                <IrrFileSystemClass ID="a54c19ee-8977-4137-9b34-5bed8f31c968" Class="IrrObjectClass" SysEvent="true">
+                    <function>
+                        <AddZipFileArchive ID="b11105e9-6544-442f-a5de-bb339cd03100">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                        </AddZipFileArchive>
+                        <Lua_AddZipFileArchive Type="luafunc" Desc="Lua_AddZipFileArchive(FileName)" ID="dffd7ee3-9f34-46aa-ad7c-f31c2263c741" />
+                    </function>
+                    <outevent>
+                        <OnFileSystemChange Dynamic="true" ID="15800a31-89ad-4dc5-b94d-c1604dcaf3cf" />
+                    </outevent>
+                </IrrFileSystemClass>
+                <IrrVideoDriverClass ID="5e35dafe-6de0-4cd4-bd9a-fc60be883cfb" Class="IrrObjectClass" SysEvent="true" />
+                <IrrMeshClass ID="bddf5f04-19da-4833-9c7c-8a5cb79c32db" Class="IrrObjectClass" SysEvent="true">
+                    <attribute>
+                        <MeshFile Type="VS_VSTRING" Default="" />
+                        <LoadResult Type="VS_BOOL" SyncFlag="1" Default="" EditType="1" />
+                    </attribute>
+                    <function>
+                        <TriggerChangeEvent ID="fe6cecd7-3b70-42b3-b795-bb3ad29db6c8" />
+                        <Lua_TriggerChangeEvent Type="luafunc" Desc="Lua_TriggerChangeEvent()" ID="b145f3f5-9071-48d7-b715-64994d088787" />
+                        <GetMeshBufferCount ID="39b59a14-87bc-4f06-8974-efaab1a366af">
+                            <output Type="VS_INT32" />
+                        </GetMeshBufferCount>
+                        <Lua_GetMeshBufferCount Type="luafunc" Desc="Count=Lua_GetMeshBufferCount()" ID="e14de402-326e-4e63-b147-a3550d5127fa" />
+                        <GetMeshBuffer ID="91eecb7e-b5f0-40f8-ad1b-a6e6db55bf07">
+                            <input Name="MeshBufferObject" Type="void *" />
+                            <input Name="Index" Type="VS_INT32" />
+                            <output Type="void *" />
+                        </GetMeshBuffer>
+                        <Lua_GetMeshBuffer Type="luafunc" Desc="MeshBufferObject=Lua_GetMeshBuffer(MeshBufferObject,Index)" ID="4979fd46-d98e-44b7-b74c-15c5fe6556f3" />
+                    </function>
+                    <outevent>
+                        <OnChange Dynamic="true" ID="728fa4db-f349-45a4-8438-11b875c251d1" />
+                    </outevent>
+                </IrrMeshClass>
+                <IrrCameraSceneNodeClass ID="339e653f-1641-4ee9-b5d9-84be6f7a76ec" Class="IrrSceneNodeClass" SysEvent="true">
+                    <attribute>
+                        <Target Type="struct SRP3DVector" NotifyFlag="2" Default="" />
+                        <ZNear Type="VS_FLOAT" Default="1" />
+                        <ZFar Type="VS_FLOAT" Default="3000" />
+                    </attribute>
+                    <function>
+                        <GetTarget ID="a90b7a1d-3f61-4a4d-8409-a4c010a88a1a">
+                            <input Name="Position" Type="struct SRP3DVector *" />
+                        </GetTarget>
+                        <Lua_GetTarget Type="luafunc" Desc="Target=Lua_GetTarget()" ID="a2a5255c-6b34-4b10-a03d-b05bd515e8ac" />
+                    </function>
+                    <Scale>
+                        <X Value="1.00000000000" />
+                        <Y Value="1.00000000000" />
+                        <Z Value="1.00000000000" />
+                    </Scale>
+                    <AutomaticCullingState Value="0" />
+                </IrrCameraSceneNodeClass>
+                <IrrAnimatedMeshSceneNodeClass ID="c010f865-51be-4b4c-b797-9a48d65d2dba" Class="IrrSceneNodeClass" SysEvent="true">
+                    <attribute>
+                        <MeshFile Type="VS_VSTRING" Default="" />
+                        <MD2AnimationType Type="VS_INT32" ComboBox="IRRMD2_ANIMATION_TYPE" Default="" EditType="1" />
+                        <FramesPerSecond Type="VS_FLOAT" Default="25" />
+                    </attribute>
+                    <function>
+                        <SetFrameLoop ID="546d3e3a-c136-49f7-843a-dd6e6be39475">
+                            <input Name="Begin" Type="VS_INT32" />
+                            <input Name="End" Type="VS_INT32" />
+                        </SetFrameLoop>
+                        <Lua_SetFrameLoop Type="luafunc" Desc="Lua_SetFrameLoop(Begin,End)" ID="82e57eae-f14e-40f1-b675-491c3bf94460" />
+                        <SetAnimationSpeed ID="ff1ee89b-ab55-4687-bcfb-d3c4366a5e41">
+                            <input Name="FramesPerSecond" Type="VS_FLOAT" />
+                        </SetAnimationSpeed>
+                        <Lua_SetAnimationSpeed Type="luafunc" Desc="Lua_SetAnimationSpeed(FramesPerSecond)" ID="ed9786fa-3602-401d-a7a2-b0c5a933f809" />
+                    </function>
+                    <Scale>
+                        <X Value="1.00000000000" />
+                        <Y Value="1.00000000000" />
+                        <Z Value="1.00000000000" />
+                    </Scale>
+                </IrrAnimatedMeshSceneNodeClass>
+                <IrrAnimatedMeshClass ID="9eeaac1c-d68e-42bf-a1c8-1804b1302d71" Class="IrrMeshClass" SysEvent="true">
+                    <function>
+                        <OnBeforeCreate CantOvl="0" ID="8edb4063-c267-4e6d-b0de-e6a3811ef9e0" />
+                        <OnAfterCreate ID="944be2a4-96b4-4cfe-976d-2d9e8d7b203a" />
+                        <GetMesh ID="72c34c0f-b14c-4cdd-b634-36a5abf6efda">
+                            <input Name="MeshObject" Type="void *" />
+                            <input Name="Frame" Type="VS_INT32" />
+                            <input Name="DetailLevel" Type="VS_INT32" Desc="255" />
+                            <input Name="StartFrameLoop" Type="VS_INT32" Desc="-1" />
+                            <input Name="EndFrameLoop" Type="VS_INT32" Desc="-1" />
+                            <output Type="void *" />
+                        </GetMesh>
+                        <Lua_GetMesh Type="luafunc" Desc="MeshObject = Lua_GetMesh(MeshObject,Frame,DetailLevel,StartFrameLoop,EndFrameLoop)" ID="aed1d178-ef99-47ea-9dc4-c3993e6daa81" />
+                    </function>
+                </IrrAnimatedMeshClass>
+                <IrrQ3LevelMeshClass ID="95d76c97-2374-4c9d-a794-6b9dac819fac" Class="IrrAnimatedMeshClass" SysEvent="true">
+                    <function>
+                        <GetShader ID="f9a300b6-517b-4a64-a352-70c9684d8f96">
+                            <input Name="Index" Type="VS_UINT32" />
+                            <output Type="void *" />
+                        </GetShader>
+                        <Lua_GetShader Type="luafunc" Desc="Shader=Lua_GetShader(Index) ;" ID="136bb70b-89c3-4a4c-9506-938470eea879" />
+                    </function>
+                </IrrQ3LevelMeshClass>
+            </object>
+        </BasicServiceItem>
+    </sysrootitem>
+</service>

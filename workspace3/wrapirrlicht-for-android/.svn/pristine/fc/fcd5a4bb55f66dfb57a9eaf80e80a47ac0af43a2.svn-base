@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<service ID="27220a0f-98e5-415c-b5ae-ad535452eb56" Password="123" Name="SRPFSEngine">
+    <FrameTicket Value="2" />
+    <module>
+        <SRPFSEngineBasicModule ID="0f658c62-e7ba-46e7-8f93-660b0834e145" />
+        <SRPFSEngineBCModule Type="32" ID="9aee140c-555d-46f2-8ebd-a36f3d2a239a" />
+    </module>
+    <editmodule>
+        <SRPFSEngineBasicBCEditModule ID="cc942f6b-51e0-4730-986d-5cc2e6d6a5f3" />
+    </editmodule>
+    <macro>
+        <FileStatus>
+            <FILESTATUS_UPLOAD Value="2" />
+            <FILESTATUS_DOWNLOAD Value="3" />
+            <FILESTATUS_LOCAL Value="0" />
+            <FILESTATUS_REMOTE Value="1" />
+            <FILESTATUS_UNKNOWN Value="4" />
+        </FileStatus>
+    </macro>
+    <sysrootitem>
+        <BasicServiceItem ID="b41f6b09-d541-407c-9757-101010153eea" NameID="95b3722e-4361-4c1d-bbeb-b1511e7c2851">
+            <object>
+                <FileToolClass ID="172336c8-8e6c-444b-bdce-36189c1b2cf9">
+                    <function>
+                        <Execute Desc="函数描述" ID="3248895a-6ad7-48d1-8547-0d855aa25fba">
+                            <input Name="ShowMax" Type="VS_BOOL" />
+                        </Execute>
+                        <Lua_Execute Type="luafunc" Desc="Lua_Execute(true)" ID="b36cf3b0-eb4a-4347-8d25-4bb605717972" />
+                        <GetLoadFile Desc="选择装载的文件名" ID="06f1689a-3228-45c6-b2f6-59fd2f7205af">
+                            <output Type="VS_CHAR *" />
+                        </GetLoadFile>
+                        <Lua_GetLoadFile Type="luafunc" Desc="FileName=Lua_GetLoadFile()" ID="e8bd4720-c895-4526-89a6-91b8e91dcad6" />
+                        <GetSaveFile Desc="函数描述" ID="59fa5879-894f-44ff-ad8d-ebe2522eb975">
+                            <output Type="VS_CHAR *" />
+                        </GetSaveFile>
+                        <Lua_GetSaveFile Type="luafunc" Desc="FileName=Lua_GetSaveFile()" ID="d3e3bc9e-9478-4f45-bba2-efa8194e22b4" />
+                    </function>
+                </FileToolClass>
+                <FileClass ID="1ecc3d2f-d586-4d48-b4ba-a4996907d882" SysEvent="true">
+                    <attribute>
+                        <Name Type="VS_CHAR [128]" Attach="true" />
+                        <FileDataID Type="VS_STATICID" NotifyFlag="2" StaticID="1" EditReadOnly="1" />
+                        <Name Type="VS_VSTRING" Default="File" />
+                        <FSize Type="VS_ULONG" CreateFlag="1" EditReadOnly="1" />
+                        <FDate Type="VS_TIME" CreateFlag="1" EditType="3" />
+                        <Url Type="VS_VSTRING" Default="" Desc="变长字符串" />
+                    </attribute>
+                    <outevent>
+                        <OnChange Dynamic="true" Desc="事件描述" ID="ed247115-7965-4d76-9691-4e5636eb368a" />
+                    </outevent>
+                </FileClass>
+                <DriveClass ID="279cde1f-4529-45e7-8ba4-13df52590d80" SysEvent="true">
+                    <attribute>
+                        <LocalBuf Type="void *" SyncFlag="1" />
+                        <FileList Type="void *" Class="FileClass" />
+                        <DirList Type="void *" Class="DirectoryClass" />
+                    </attribute>
+                    <function>
+                        <SaveFObjectData Desc="函数描述" CantOvl="0" ID="7d38a8dd-a4e3-463b-8ae4-666a15612f0b">
+                            <input Name="ObjectID" Type="VS_UUID" />
+                            <input Name="DataSize" Type="VS_ULONG" />
+                            <input Name="DataBuf" Type="VS_CHAR *" />
+                            <output Type="VS_BOOL" />
+                        </SaveFObjectData>
+                        <LoadFObjectData Desc="函数描述" CantOvl="0" ID="fa3f5d3c-4164-4cc3-8c10-3583f86bcf6c">
+                            <input Name="ObjectID" Type="VS_UUID" />
+                            <input Name="DataSize" Type="VS_ULONG *" />
+                            <output Type="VS_CHAR *" />
+                        </LoadFObjectData>
+                        <Dir Desc="函数描述" ID="762e5df7-7a1e-4110-b075-93b914f2a302">
+                            <input Name="PathName" Type="VS_CHAR *" />
+                        </Dir>
+                        <Lua_Dir Type="luafunc" Desc="LuaC函数" ID="826e8ae4-9783-48a5-a756-30a8e16d418a" />
+                        <CHDir Desc="改变当前路径，如果没有参数，则显示当前路径" ID="41845149-9891-430a-ac68-5e71a6c3d506">
+                            <input Name="PathName" Type="VS_CHAR *" />
+                            <output Type="VS_BOOL" />
+                        </CHDir>
+                        <Lua_CD Type="luafunc" Desc=" Lua_CD(Path)" ID="5ceee76e-101c-417e-977e-e89c2759b736" />
+                        <MKDir Desc="当前路径下，创建目录" ID="7413606a-6c75-463a-8a5e-80894f4bad55">
+                            <input Name="PathName" Type="VS_CHAR *" />
+                            <input Name="DirObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="void *" />
+                        </MKDir>
+                        <Lua_MD Type="luafunc" Desc="Object=Lua_MD(DirName,DirObjectID)" ID="b6eba223-0857-4caf-86b5-14bb13bc5660" />
+                        <RMDir Desc="删除目录" ID="11224873-419b-4dff-884f-8930dc59ebdf">
+                            <input Name="PathName" Type="VS_CHAR *" />
+                        </RMDir>
+                        <Lua_RD Type="luafunc" Desc="LuaC函数" ID="41d5d86f-0faf-4053-95ad-d86d266b3e5b" />
+                        <Open Desc="函数描述" ID="330f547a-2980-419c-89ce-cd4cc42e53ff">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="CreateFlag" Type="VS_BOOL" />
+                            <input Name="FileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <input Name="RetFileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="VS_ULONG" />
+                        </Open>
+                        <Lua_Open Type="luafunc" Desc="LuaC函数" ID="f3bd60ad-88c9-4bf4-82dc-62e04f543c60" />
+                        <Close Desc="函数描述" ID="c19a56de-7ed2-4393-861b-dbfde93d57f8">
+                            <input Name="FHandle" Type="VS_ULONG" />
+                        </Close>
+                        <Lua_Close Type="luafunc" Desc="LuaC函数" ID="1217d4b4-85bc-4e8a-ac97-e807d1492ff8" />
+                        <Read Desc="函数描述" ID="36323c17-040b-4eea-9bd3-57336674dc37">
+                            <input Name="FHandle" Type="VS_ULONG" />
+                            <input Name="Size" Type="VS_ULONG *" />
+                            <output Type="VS_CHAR *" />
+                        </Read>
+                        <Lua_Read Type="luafunc" Desc="size=Lua_Read(FHandle,BinBuf)" ID="353d1cf4-a4c2-45a5-95c7-5d2a15e58980" />
+                        <Write Desc="函数描述" ID="1f3b4c4b-6822-43f8-880f-d238be097654">
+                            <input Name="FHandle" Type="VS_ULONG" />
+                            <input Name="FBuf" Type="VS_CHAR *" />
+                            <input Name="Size" Type="VS_ULONG" />
+                        </Write>
+                        <Lua_Write Type="luafunc" Desc="Lua_Write(FHandle,BinBuf)" ID="11e5280e-4759-429f-8803-c673c453acec" />
+                        <Del Desc="函数描述" ID="d4dff282-9c8e-4144-9349-266ba3578ba6">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                        </Del>
+                        <Lua_Del Type="luafunc" Desc="LuaC函数" ID="bf82db01-0543-4507-a6e7-083ba9966c1e" />
+                        <QueryFirst Desc="FileName,Context = QueryFirst(Path)" ID="7cadc0f9-3be7-4ac2-a7bb-3e3e2fae3dcd">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="FFindContext" Type="VS_ULONG *" />
+                            <output Type="VS_CHAR *" />
+                        </QueryFirst>
+                        <Lua_QueryFirst Type="luafunc" Desc="LuaC函数" ID="50c40d85-18ae-425c-bca0-dad2e9154581" />
+                        <QueryNext Desc="函数描述" ID="58780d68-0f63-4ab8-b266-f3693a235126">
+                            <input Name="FFindContext" Type="VS_ULONG" />
+                            <output Type="VS_CHAR *" />
+                        </QueryNext>
+                        <Lua_QueryNext Type="luafunc" Desc="FileName = QueryNext(Context)" ID="a1e867b6-6a66-4656-a7d4-6eb044249b96" />
+                        <QueryClose Desc="函数描述" ID="c7c9f4b8-78c6-499d-b2c2-49c46412c601">
+                            <input Name="FFindContext" Type="VS_ULONG" />
+                        </QueryClose>
+                        <Lua_QueryClose Type="luafunc" Desc="QueryClose(Context)" ID="911b8c62-63f4-4de8-aa45-0336b21d2b57" />
+                        <RegCallBack Desc="函数描述" ID="bb4d30f3-d7b1-4c1b-b77d-e2d1a29e2911">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="DesObject" Type="void *" />
+                            <input Name="FuncAddr" Type="void *" Desc="FuncAddr是一个函数地址" />
+                        </RegCallBack>
+                        <UnRegCallBack Desc="函数描述" ID="2613c24e-274a-4eda-ade6-76cefe285be6">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="DesObject" Type="void *" />
+                            <input Name="FuncAddr" Type="void *" Desc="FuncAddr是一个函数地址" />
+                        </UnRegCallBack>
+                        <LoadFile Desc="装载磁盘文件" ID="3d7c6b33-2d99-4bef-9b89-35e28a9a6268">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="DiskFileName" Type="VS_CHAR *" />
+                            <input Name="FileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <input Name="TxtFileFlag" Type="VS_BOOL" Desc="如果等于True，则表示为文本文件；否则为二进制文件" />
+                            <output Type="void *" />
+                        </LoadFile>
+                        <Lua_LoadFile Type="luafunc" Desc='Object = Lua_LoadFile( \&quot;\\\\asd\\\\asd\&quot;,\&quot;c:\\\\XXX\\\\XXX.XXX\&quot;,\&quot;UUID\&quot;,TxtFileFlag)' ID="c754a4dc-e679-4bfd-9b98-b569c0ef2c68" />
+                        <LoadFileEx Desc="装载磁盘文件" ID="77842c47-40cd-411a-a5f8-8585446b5d67">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="DiskFileName" Type="VS_CHAR *" />
+                            <input Name="FileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="void *" />
+                        </LoadFileEx>
+                        <Lua_LoadFileEx Type="luafunc" Desc='Object = Lua_LoadFileEx( \&quot;\\\\asd\\\\asd\&quot;,\&quot;c:\\\\XXX\\\\XXX.XXX\&quot;,\&quot;UUID\&quot;)' ID="f5d2a374-e905-4e50-8f12-2eb34928be8c" />
+                        <LoadBuf Desc="从缓冲区中装载" ID="5a2081bb-5f8e-43d9-889b-da474a6c4995">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="Buf" Type="VS_CHAR *" />
+                            <input Name="BufSize" Type="VS_INT32" />
+                            <input Name="FileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="void *" />
+                        </LoadBuf>
+                        <Lua_LoadBuf Type="luafunc" Desc='Object=Lua_LoadBuf(FileName,BinBuf,\&quot;UUID\&quot;)' ID="e994b481-9f96-4bd0-932f-d46988d317cd" />
+                        <Lua_SaveToBuf Type="luafunc" Desc="bool = Lua_SaveToBuf(FileName,BinBuf)" ID="90acee70-c4bc-43f3-ac73-31960ca81e87" />
+                        <LoadWebFile Desc="装载网络文件" ID="9f5e83cb-818f-4bb0-9892-1a3326c74d17">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="WebFileUrl" Type="VS_CHAR *" />
+                            <input Name="DiskFileName" Type="VS_CHAR *" />
+                            <input Name="FileObjectID" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <input Name="FileVersion" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="void *" />
+                        </LoadWebFile>
+                        <Lua_LoadWebFile Type="luafunc" Desc="Object=Lua_LoadWebFile(FileName,FileUrl,DiskFileName,FileObjectID,FileVersion)" ID="05a62e36-de15-45dc-896e-d7a015721359" />
+                        <SetWebFileInfo Desc="函数描述" ID="e119e6a2-45e9-4409-9f79-746fec4247b6">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="WebFileUrl" Type="VS_CHAR *" />
+                            <input Name="FileVersion" Type="VS_UUID *" Desc="允许等于NULL" />
+                        </SetWebFileInfo>
+                        <Lua_SetWebFileInfo Type="luafunc" Desc="Lua_SetWebFileInfo(FileName,FileUrl,Version)" ID="edd9eea5-729b-4345-a56c-b6c083342831" />
+                        <GetWebFileInfo Desc="函数描述" ID="6e5d4791-9b8c-4021-b469-171f147ef66d">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="FileVersion" Type="VS_UUID *" Desc="允许等于NULL" />
+                            <output Type="VS_CHAR *" />
+                        </GetWebFileInfo>
+                        <Lua_GetWebFileInfo Type="luafunc" Desc="FileUrl,Version=Lua_GetWebFileInfo(FileName)" ID="4c677225-b15f-4fa2-a908-27e4f1484af9" />
+                        <SaveFile Desc="存储磁盘文件" ID="6d69bb8b-ec6e-4770-8b50-742f14d7657c">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="DiskFileName" Type="VS_CHAR *" />
+                            <input Name="TxtFileFlag" Type="VS_BOOL" Desc="如果等于True，则表示为文本文件；否则为二进制文件" />
+                            <output Type="VS_BOOL" />
+                        </SaveFile>
+                        <Lua_SaveFile Type="luafunc" Desc="Lua_SaveFile(FileName,DiskFileName,TxtFileFlag)" ID="cb14e750-0e47-468a-a1ae-035fe3f107bd" />
+                        <GetFileObject Desc="函数描述" ID="1d2675b7-42c6-41d6-aa6e-efe4105ebbdc">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <output Type="void *" />
+                        </GetFileObject>
+                        <Lua_GetFileObject Type="luafunc" Desc='File = Lua_GetFileObject(\&quot;\\\\adsfads\\\\asdfasfd\&quot;)' ID="5a8324e7-51f8-4b60-9059-5e0f889e3808" />
+                        <IsDir Desc="函数描述" ID="3b9c9811-1e4a-4afc-90c6-71548b9770ef">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <output Type="VS_BOOL" />
+                        </IsDir>
+                        <Lua_IsDir Type="luafunc" Desc='bool=Lua_IsDir(\&quot;\\\\sadfsadf\\\\asdf\&quot;)' ID="9ec19813-4959-4870-9092-8b7a50c0f4ec" />
+                        <IsFile Desc="函数描述" ID="8f0bc149-325d-4681-adfe-fd7124bde3f3">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <output Type="VS_BOOL" />
+                        </IsFile>
+                        <Lua_IsFile Type="luafunc" Desc='bool = Lua_IsFile(\&quot;safdasd\\\\sdfasf\&quot;}' ID="72ee1536-2183-493f-86a2-f973a08b0b29" />
+                        <GetDrive Desc="解析输入路径中的:前面的字符串,据此查找DriveClass对象" ID="ff13f982-7cf6-472c-a28e-406ca7fa49ea">
+                            <input Name="FullPath" Type="VS_CHAR *" Desc="全路径名称,例如:XXX:\\\\sada\\\\" />
+                            <output Type="void *" />
+                        </GetDrive>
+                        <Lua_GetDrive Type="luafunc" Desc="LuaC函数,Object = Lua_GetDrive(Path)" ID="5492109f-7205-4216-bd27-30e369dafff6" />
+                        <GetDriveEx Desc="输入文件对象，获取虚拟盘对象" ID="51e9c3ce-0335-4cd7-b6e2-6160eb9b4ac9">
+                            <input Name="FileObj" Type="void *" />
+                            <output Type="void *" />
+                        </GetDriveEx>
+                        <Lua_GetDriveEx Type="luafunc" Desc="Object = Lua_GetDriveEx(FileObj)" ID="02b1f6d8-f0dd-4dbf-a068-e307d434157c" />
+                        <GetFileStatus Desc="函数描述" ID="c5412d83-d4f2-4af9-975d-db35c08bb583">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <output Type="VS_ULONG" Desc="参见FileStatus宏定义" />
+                        </GetFileStatus>
+                        <Lua_GetFileStatus Type="luafunc" Desc="LuaC函数" ID="d31203a0-63c7-46ab-85f3-f4f8b0d0d99a" />
+                        <DownLoad Desc="如果文件不一致，则从服务器下载文件；若一致，该函数不操作" ID="554460b1-6477-413b-bbf7-a0470b9454f7">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                        </DownLoad>
+                        <Lua_DownLoad Type="luafunc" Desc="Lua_DownLoad(FileName)" ID="b4c7c004-50da-49a4-812d-35d7d94e9262" />
+                        <GetFileName Desc="取得文件对象或者目录的全路径名称" ID="e3836e17-8373-4f5a-934f-a48c286620ea">
+                            <input Name="FileDirObject" Type="void *" />
+                            <output Type="VS_CHAR *" />
+                        </GetFileName>
+                        <Lua_GetFileName Type="luafunc" Desc="LuaC函数" ID="6bf548df-8993-4e2b-894e-193f4ae0b41b" />
+                        <DoScript Desc="运行Lua脚本文件，可以是磁盘文件，也可以是虚拟盘文件" ID="8a250864-f6eb-4872-b1af-ea41a6f3c5e6">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="IsUTF8" Type="VS_BOOL" />
+                            <output Type="VS_BOOL" />
+                        </DoScript>
+                        <Lua_DoScript Type="luafunc" Desc="bool=Lua_DoScript(FileName,IsUTF8)" ID="bf6a322a-6ce8-4b8f-97d5-34f9c28847d1" />
+                        <DoScriptEx Desc="运行脚本文件，可以是磁盘文件，也可以是虚拟盘文件" ID="43441258-ebb5-43f8-81a3-e890ec504418">
+                            <input Name="ScriptInterface" Type="VS_CHAR *" Desc="lua/python" />
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="IsUTF8" Type="VS_BOOL" />
+                            <output Type="VS_BOOL" />
+                        </DoScriptEx>
+                        <Lua_DoScriptEx Type="luafunc" Desc="bool=Lua_DoScriptEx(ScriptInterface,FileName,IsUTF8)" ID="dcc39b3a-e985-4514-b8db-ae2f60f44f91" />
+                        <GetFileVersion ID="e7e36e2f-4d28-4128-b1d4-8f261a0b28ed">
+                            <input Name="FileName" Type="VS_CHAR *" />
+                            <input Name="FileVersion" Type="VS_UUID *" Desc="允许等于NULL" />
+                        </GetFileVersion>
+                        <Lua_GetFileVersion Type="luafunc" Desc="Version=Lua_GetFileVersion(FileName)" ID="a88d497f-5c79-460f-9ea5-1c55f7189045" />
+                    </function>
+                    <outevent>
+                        <OnRead Desc="LParam=FileName,SParam=BinBuf;Script:(Event,FileName,BinBuf)" ID="c3b38ced-7c95-403b-9499-85e18b033054" />
+                        <OnDownLoad Dynamic="true" Desc="LParam=0/1/2/3 S=Object T = Size F = DownSize 脚本(Event,0/1/2/3,Object,Size,DownSize)" ID="12f5485e-3c61-43d5-90d4-19589c7defe9" />
+                        <OnFileChange Dynamic="true" Desc="任何一个文件的内容发生变化，LParam=FileObject 脚本 (Event,FileName)" ID="65c560ce-50eb-46af-8f3c-ae5936ff7b2d" />
+                    </outevent>
+                </DriveClass>
+                <DirectoryClass ID="b030a6b7-69a8-4d63-98b6-1010d2086f6b" SysEvent="true">
+                    <attribute>
+                        <Name Type="VS_CHAR [128]" Attach="true" />
+                        <FileList Type="void *" Class="FileClass" />
+                        <DirList Type="void *" Class="DirectoryClass" />
+                        <Name Type="VS_VSTRING" Default="Directory" />
+                        <FDate Type="VS_TIME" CreateFlag="1" EditType="3" />
+                    </attribute>
+                </DirectoryClass>
+            </object>
+        </BasicServiceItem>
+    </sysrootitem>
+</service>

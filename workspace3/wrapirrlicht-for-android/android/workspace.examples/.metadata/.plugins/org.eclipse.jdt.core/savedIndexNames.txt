@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+D:\Work\starcore\core\service\irrlicht\wrapirrlicht\android\workspace.examples\.metadata\.plugins\org.eclipse.jdt.core
+2380175872.index
+1274624595.index
+3614510572.index
