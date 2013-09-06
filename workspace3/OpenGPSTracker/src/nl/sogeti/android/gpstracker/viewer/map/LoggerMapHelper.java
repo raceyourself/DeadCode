@@ -17,7 +17,6 @@ import java.util.concurrent.Semaphore;
 import nl.sogeti.android.gpstracker.R;
 import nl.sogeti.android.gpstracker.actions.ControlTracking;
 import nl.sogeti.android.gpstracker.actions.InsertNote;
-import nl.sogeti.android.gpstracker.actions.ShareTrack;
 import nl.sogeti.android.gpstracker.actions.Statistics;
 import nl.sogeti.android.gpstracker.db.GPStracking.Media;
 import nl.sogeti.android.gpstracker.db.GPStracking.Segments;
@@ -47,7 +46,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -108,7 +106,7 @@ public class LoggerMapHelper
    private static final int MENU_ABOUT = 5;
    private static final int MENU_LAYERS = 6;
    private static final int MENU_NOTE = 7;
-   private static final int MENU_SHARE = 13;
+//   private static final int MENU_SHARE = 13;
    private static final int MENU_CONTRIB = 14;
    private static final int DIALOG_NOTRACK = 24;
    private static final int DIALOG_LAYERS = 31;
@@ -743,7 +741,7 @@ public class LoggerMapHelper
       menu.add(ContextMenu.NONE, MENU_NOTE, ContextMenu.NONE, R.string.menu_insertnote).setIcon(R.drawable.ic_menu_myplaces);
 
       menu.add(ContextMenu.NONE, MENU_STATS, ContextMenu.NONE, R.string.menu_statistics).setIcon(R.drawable.ic_menu_picture).setAlphabeticShortcut('S');
-      menu.add(ContextMenu.NONE, MENU_SHARE, ContextMenu.NONE, R.string.menu_shareTrack).setIcon(R.drawable.ic_menu_share).setAlphabeticShortcut('I');
+//      menu.add(ContextMenu.NONE, MENU_SHARE, ContextMenu.NONE, R.string.menu_shareTrack).setIcon(R.drawable.ic_menu_share).setAlphabeticShortcut('I');
       // More
 
       menu.add(ContextMenu.NONE, MENU_TRACKLIST, ContextMenu.NONE, R.string.menu_tracklist).setIcon(R.drawable.ic_menu_show_list).setAlphabeticShortcut('P');
@@ -757,8 +755,8 @@ public class LoggerMapHelper
       MenuItem noteMenu = menu.findItem(MENU_NOTE);
       noteMenu.setEnabled(mLoggerServiceManager.isMediaPrepared());
 
-      MenuItem shareMenu = menu.findItem(MENU_SHARE);
-      shareMenu.setEnabled(mTrackId >= 0);
+//      MenuItem shareMenu = menu.findItem(MENU_SHARE);
+//      shareMenu.setEnabled(mTrackId >= 0);
    }
 
    public boolean onOptionsItemSelected(MenuItem item)
@@ -813,7 +811,7 @@ public class LoggerMapHelper
             intent = new Intent(mLoggerMap.getActivity(), About.class);
             mLoggerMap.getActivity().startActivity(intent);
             break;
-         case MENU_SHARE:
+/*         case MENU_SHARE:
             intent = new Intent(Intent.ACTION_RUN);
             trackUri = ContentUris.withAppendedId(Tracks.CONTENT_URI, mTrackId);
             intent.setDataAndType(trackUri, Tracks.CONTENT_ITEM_TYPE);
@@ -824,7 +822,7 @@ public class LoggerMapHelper
             mLoggerMap.getActivity().startActivityForResult(Intent.createChooser(intent, mLoggerMap.getActivity().getString(R.string.share_track)), MENU_SHARE);
             handled = true;
             break;
-         case MENU_CONTRIB:
+*/         case MENU_CONTRIB:
             mLoggerMap.getActivity().showDialog(DIALOG_CONTRIB);
          default:
             handled = false;
@@ -981,10 +979,10 @@ public class LoggerMapHelper
                }
             }
             break;
-         case MENU_SHARE:
+/*         case MENU_SHARE:
             ShareTrack.clearScreenBitmap();
             break;
-         default:
+*/         default:
             Log.e(TAG, "Returned form unknow activity: " + requestCode);
             break;
       }

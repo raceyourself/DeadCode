@@ -64,7 +64,7 @@ public class Constants
    public static final String LOGATPOWERCONNECTED = "logatpowerconnected";
    public static final String STOPATPOWERDISCONNECTED = "stopatpowerdisconnected";
    public static final String SERVICENAME = "nl.sogeti.android.gpstracker.intent.action.GPSLoggerService";
-   public static final String STREAMBROADCAST = "nl.sogeti.android.gpstracker.intent.action.STREAMBROADCAST";
+//   public static final String STREAMBROADCAST = "nl.sogeti.android.gpstracker.intent.action.STREAMBROADCAST";
    public static final String UNITS = "units";
    public static final int UNITS_DEFAULT = 0;
    public static final int UNITS_IMPERIAL = 1;
@@ -231,7 +231,7 @@ public class Constants
    public static final int BREADCRUMBS_TRACK_ITEM_VIEW_TYPE = 3;
    public static final int BREADCRUMBS_ACTIVITY_ITEM_VIEW_TYPE = 4;
    public static final int SECTIONED_HEADER_ITEM_VIEW_TYPE = 0;
-   public static final String BROADCAST_STREAM = "STREAM_ENABLED";
+//   public static final String BROADCAST_STREAM = "STREAM_ENABLED";
 
    /**
     * A distance in meters

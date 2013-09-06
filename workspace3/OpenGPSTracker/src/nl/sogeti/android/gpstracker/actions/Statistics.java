@@ -74,7 +74,7 @@ public class Statistics extends Activity implements StatisticsDelegate
    private static final int DIALOG_GRAPHTYPE = 3;
    private static final int MENU_GRAPHTYPE = 11;
    private static final int MENU_TRACKLIST = 12;
-   private static final int MENU_SHARE = 41;
+//   private static final int MENU_SHARE = 41;
    private static final String TRACKURI = "TRACKURI";
    private static final String TAG = "OGT.Statistics";
 
@@ -288,7 +288,7 @@ public class Statistics extends Activity implements StatisticsDelegate
       boolean result = super.onCreateOptionsMenu( menu );
       menu.add( ContextMenu.NONE, MENU_GRAPHTYPE, ContextMenu.NONE, R.string.menu_graphtype ).setIcon( R.drawable.ic_menu_picture ).setAlphabeticShortcut( 't' );
       menu.add( ContextMenu.NONE, MENU_TRACKLIST, ContextMenu.NONE, R.string.menu_tracklist ).setIcon( R.drawable.ic_menu_show_list ).setAlphabeticShortcut( 'l' );
-      menu.add( ContextMenu.NONE, MENU_SHARE, ContextMenu.NONE, R.string.menu_shareTrack ).setIcon( R.drawable.ic_menu_share ).setAlphabeticShortcut( 's' );
+//      menu.add( ContextMenu.NONE, MENU_SHARE, ContextMenu.NONE, R.string.menu_shareTrack ).setIcon( R.drawable.ic_menu_share ).setAlphabeticShortcut( 's' );
       return result;
    }
 
@@ -308,7 +308,7 @@ public class Statistics extends Activity implements StatisticsDelegate
             intent.putExtra( Tracks._ID, mTrackUri.getLastPathSegment() );
             startActivityForResult( intent, MENU_TRACKLIST );
             break;
-         case MENU_SHARE:
+/*         case MENU_SHARE:
             intent = new Intent( Intent.ACTION_RUN );
             intent.setDataAndType( mTrackUri, Tracks.CONTENT_ITEM_TYPE );
             intent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
@@ -318,7 +318,7 @@ public class Statistics extends Activity implements StatisticsDelegate
             startActivityForResult(Intent.createChooser( intent, getString( R.string.share_track ) ), MENU_SHARE);
             handled = true;
             break;
-         default:
+*/         default:
             handled = super.onOptionsItemSelected( item );
       }
       return handled;
@@ -350,10 +350,10 @@ public class Statistics extends Activity implements StatisticsDelegate
                drawTrackingStatistics();
             }
             break;
-         case MENU_SHARE:
+/*         case MENU_SHARE:
             ShareTrack.clearScreenBitmap();
             break;
-         default:
+*/         default:
             Log.w( TAG, "Unknown activity result request code" );
       }
    }

@@ -29,14 +29,10 @@
 package nl.sogeti.android.gpstracker.viewer;
 
 import nl.sogeti.android.gpstracker.R;
-import nl.sogeti.android.gpstracker.actions.DescribeTrack;
 import nl.sogeti.android.gpstracker.actions.Statistics;
 import nl.sogeti.android.gpstracker.actions.tasks.GpxParser;
 import nl.sogeti.android.gpstracker.actions.utils.ProgressListener;
-import nl.sogeti.android.gpstracker.adapter.BreadcrumbsAdapter;
 import nl.sogeti.android.gpstracker.adapter.SectionedListAdapter;
-import nl.sogeti.android.gpstracker.breadcrumbs.BreadcrumbsService;
-import nl.sogeti.android.gpstracker.breadcrumbs.BreadcrumbsService.LocalBinder;
 import nl.sogeti.android.gpstracker.db.DatabaseHelper;
 import nl.sogeti.android.gpstracker.db.GPStracking;
 import nl.sogeti.android.gpstracker.db.GPStracking.Tracks;
@@ -50,20 +46,15 @@ import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.SearchManager;
 import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -73,8 +64,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -98,7 +87,7 @@ public class TrackList extends ListActivity implements ProgressListener
    private static final int MENU_SEARCH = Menu.FIRST + 4;
    private static final int MENU_VACUUM = Menu.FIRST + 5;
    private static final int MENU_PICKER = Menu.FIRST + 6;
-   private static final int MENU_BREADCRUMBS = Menu.FIRST + 7;
+//   private static final int MENU_BREADCRUMBS = Menu.FIRST + 7;
 
    public static final int DIALOG_FILENAME = Menu.FIRST + 22;
    private static final int DIALOG_RENAME = Menu.FIRST + 23;
@@ -111,7 +100,7 @@ public class TrackList extends ListActivity implements ProgressListener
    private static final int PICKER_OI = Menu.FIRST + 29;
    private static final int DESCRIBE = Menu.FIRST + 30;
 
-   private BreadcrumbsAdapter mBreadcrumbAdapter;
+//   private BreadcrumbsAdapter mBreadcrumbAdapter;
    private EditText mTrackNameView;
    private Uri mDialogTrackUri;
    private String mDialogCurrentName = "";
@@ -126,7 +115,7 @@ public class TrackList extends ListActivity implements ProgressListener
    private ProgressListener mExportListener;
    private int mPausePosition;
 
-   private BreadcrumbsService mService;
+//   private BreadcrumbsService mService;
    boolean mBound = false;
 
    @Override
@@ -149,20 +138,20 @@ public class TrackList extends ListActivity implements ProgressListener
          getListView().setSelection(savedInstanceState.getInt("POSITION"));
       }
 
-      IntentFilter filter = new IntentFilter();
+/*      IntentFilter filter = new IntentFilter();
       filter.addAction(BreadcrumbsService.NOTIFY_DATA_SET_CHANGED);
       registerReceiver(mReceiver, filter);
 
       Intent service = new Intent(this, BreadcrumbsService.class);
       startService(service);
-   }
+*/   }
 
    @Override
    protected void onStart()
    {
       super.onStart();
-      Intent intent = new Intent(this, BreadcrumbsService.class);
-      bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+  //    Intent intent = new Intent(this, BreadcrumbsService.class);
+  //    bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
    }
 
    @Override
@@ -187,9 +176,9 @@ public class TrackList extends ListActivity implements ProgressListener
    {
       if (mBound)
       {
-         unbindService(mConnection);
+//         unbindService(mConnection);
          mBound = false;
-         mService = null;
+//         mService = null;
       }
       super.onStop();
    }
@@ -199,10 +188,10 @@ public class TrackList extends ListActivity implements ProgressListener
    {
       if (isFinishing())
       {
-         Intent service = new Intent(this, BreadcrumbsService.class);
-         stopService(service);
+//         Intent service = new Intent(this, BreadcrumbsService.class);
+//         stopService(service);
       }
-      unregisterReceiver(mReceiver);
+//      unregisterReceiver(mReceiver);
       super.onDestroy();
    }
 
@@ -247,7 +236,7 @@ public class TrackList extends ListActivity implements ProgressListener
       menu.add(ContextMenu.NONE, MENU_SEARCH, ContextMenu.NONE, android.R.string.search_go).setIcon(android.R.drawable.ic_search_category_default).setAlphabeticShortcut(SearchManager.MENU_KEY);
       menu.add(ContextMenu.NONE, MENU_VACUUM, ContextMenu.NONE, R.string.menu_vacuum).setIcon(android.R.drawable.ic_menu_crop);
       menu.add(ContextMenu.NONE, MENU_PICKER, ContextMenu.NONE, R.string.menu_picker).setIcon(android.R.drawable.ic_menu_add);
-      menu.add(ContextMenu.NONE, MENU_BREADCRUMBS, ContextMenu.NONE, R.string.dialog_breadcrumbsconnect).setIcon(android.R.drawable.ic_menu_revert);
+//      menu.add(ContextMenu.NONE, MENU_BREADCRUMBS, ContextMenu.NONE, R.string.dialog_breadcrumbsconnect).setIcon(android.R.drawable.ic_menu_revert);
       return result;
    }
 
@@ -277,12 +266,12 @@ public class TrackList extends ListActivity implements ProgressListener
                showDialog(DIALOG_INSTALL);
             }
             break;
-         case MENU_BREADCRUMBS:
+/*         case MENU_BREADCRUMBS:
             mService.removeAuthentication();
             mService.clearAllCache();
             mService.collectBreadcrumbsOauthToken();
             break;
-         default:
+*/         default:
             handled = super.onOptionsItemSelected(item);
       }
       return handled;
@@ -298,7 +287,7 @@ public class TrackList extends ListActivity implements ProgressListener
       {
          if (Constants.BREADCRUMBS_CONNECT.equals(item))
          {
-            mService.collectBreadcrumbsOauthToken();
+//            mService.collectBreadcrumbsOauthToken();
          }
       }
       else if (item instanceof Pair< ? , ? >)
@@ -314,7 +303,7 @@ public class TrackList extends ListActivity implements ProgressListener
                   @Override
                   public void run()
                   {
-                     mService.startDownloadTask(TrackList.this, TrackList.this, track);
+//                     mService.startDownloadTask(TrackList.this, TrackList.this, track);
                   }
                };
             showDialog(DIALOG_IMPORT);
@@ -537,7 +526,7 @@ public class TrackList extends ListActivity implements ProgressListener
                {
                   name = "shareToGobreadcrumbs";
                }
-               mService.startUploadTask(TrackList.this, mExportListener, trackUri, name);
+//               mService.startUploadTask(TrackList.this, mExportListener, trackUri, name);
                break;
             default:
                super.onActivityResult(requestCode, resultCode, data);
@@ -548,7 +537,7 @@ public class TrackList extends ListActivity implements ProgressListener
       {
          if (requestCode == DESCRIBE)
          {
-            mBreadcrumbAdapter.notifyDataSetChanged();
+//            mBreadcrumbAdapter.notifyDataSetChanged();
          }
       }
    }
@@ -612,10 +601,10 @@ public class TrackList extends ListActivity implements ProgressListener
       int[] toItems = new int[] { R.id.listitem_name, R.id.listitem_from, R.id.bcSyncedCheckBox };
       SimpleCursorAdapter trackAdapter = new SimpleCursorAdapter(this, R.layout.trackitem, tracksCursor, fromColumns, toItems);
 
-      mBreadcrumbAdapter = new BreadcrumbsAdapter(this, mService);
+/*      mBreadcrumbAdapter = new BreadcrumbsAdapter(this, mService);
       sectionedAdapter.addSection("Local", trackAdapter);
       sectionedAdapter.addSection("www.gobreadcrumbs.com", mBreadcrumbAdapter);
-
+*/
       // Enrich the track adapter with Breadcrumbs adapter data 
       trackAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder()
          {
@@ -629,8 +618,9 @@ public class TrackList extends ListActivity implements ProgressListener
                   // Show the check if Breadcrumbs is online
                   final CheckBox checkbox = (CheckBox) view;
                   final ProgressBar progressbar = (ProgressBar) ((View) view.getParent()).findViewById(R.id.bcExportProgress);
-                  if (mService != null && mService.isAuthorized())
+                  if (false/*mService != null && mService.isAuthorized()*/)
                   {
+                     /*
                      checkbox.setVisibility(View.VISIBLE);
 
                      // Disable the checkbox if marked online
@@ -691,6 +681,7 @@ public class TrackList extends ListActivity implements ProgressListener
                               }
                            }
                         });
+                     */
                   }
                   else
                   {
@@ -752,7 +743,7 @@ public class TrackList extends ListActivity implements ProgressListener
       setProgressBarIndeterminate(false);
    }
 
-   private ServiceConnection mConnection = new ServiceConnection()
+/*   private ServiceConnection mConnection = new ServiceConnection()
       {
          @Override
          public void onServiceConnected(ComponentName className, IBinder service)
@@ -770,7 +761,7 @@ public class TrackList extends ListActivity implements ProgressListener
             mService = null;
          }
       };
-
+*/
    private OnClickListener mDeleteOnClickListener = new DialogInterface.OnClickListener()
       {
          @Override
@@ -828,7 +819,7 @@ public class TrackList extends ListActivity implements ProgressListener
             }
          }
       };
-   private BroadcastReceiver mReceiver = new BroadcastReceiver()
+/*   private BroadcastReceiver mReceiver = new BroadcastReceiver()
       {
          @Override
          public void onReceive(Context context, Intent intent)
@@ -839,4 +830,5 @@ public class TrackList extends ListActivity implements ProgressListener
             }
          }
       };
+      */
 }

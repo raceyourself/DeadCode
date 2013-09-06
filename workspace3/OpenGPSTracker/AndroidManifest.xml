@@ -215,6 +215,7 @@
         </receiver>
 
         <!-- This receiver defines the app widget and the broadcasts it receives -->
+        <!-- 
         <receiver
             android:name="nl.sogeti.android.gpstracker.widget.ControlWidgetProvider"
             android:exported="false"
@@ -230,7 +231,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/control_appwidget_info" />
         </receiver>
-
+-->
         <activity
             android:name="nl.sogeti.android.gpstracker.FBLogon"
             android:label="@string/title_activity_fblogon"
