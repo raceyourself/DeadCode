@@ -1,21 +1,27 @@
 package nl.sogeti.android.gpstracker;
 
-import nl.sogeti.android.gpstracker.viewer.map.CommonLoggerMap;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.Session.StatusCallback;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.model.GraphUser;
 
 /**
  * Activity which displays a login screen to the user, offering registration as well.
@@ -32,11 +38,8 @@ public class FBLogon extends Activity
     */
    public static final String EXTRA_EMAIL = "com.example.android.authenticatordemo.extra.EMAIL";
 
-   /**
-    * Keep track of the login task to ensure we can cancel it if requested.
-    */
-   private UserLoginTask mAuthTask = null;
-
+   private LoginStatusCallback loginCallback = new LoginStatusCallback();
+   
    // Values for email and password at the time of the login attempt.
    private String mEmail;
    private String mPassword;
@@ -74,7 +77,9 @@ public class FBLogon extends Activity
                return false;
             }
          });
-
+      
+      Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+      
       mLoginFormView = findViewById(R.id.login_form);
       mLoginStatusView = findViewById(R.id.login_status);
       mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
@@ -103,17 +108,12 @@ public class FBLogon extends Activity
     */
    public void attemptLogin()
    {
-      
-    Intent logonIntent = new Intent(this, CommonLoggerMap.class);
-   
-    startActivity(logonIntent);
-      
-      finish();
+/*            
       if (mAuthTask != null)
       {
          return;
       }
-
+*/
       // Reset errors.
       mEmailView.setError(null);
       mPasswordView.setError(null);
@@ -125,7 +125,7 @@ public class FBLogon extends Activity
       boolean cancel = false;
       View focusView = null;
 
-      // Check for a valid password.
+/*      // Check for a valid password.
       if (TextUtils.isEmpty(mPassword))
       {
          mPasswordView.setError(getString(R.string.error_field_required));
@@ -152,7 +152,7 @@ public class FBLogon extends Activity
          focusView = mEmailView;
          cancel = true;
       }
-
+*/
       if (cancel)
       {
          // There was an error; don't attempt login and focus the first
@@ -165,8 +165,9 @@ public class FBLogon extends Activity
          // perform the user login attempt.
          mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
          showProgress(true);
-         mAuthTask = new UserLoginTask();
-         mAuthTask.execute((Void) null);
+
+         Session.openActiveSession(this, true, loginCallback);         
+         
       }
    }
 
@@ -212,62 +213,48 @@ public class FBLogon extends Activity
       }
    }
 
-   /**
-    * Represents an asynchronous login/registration task used to authenticate the user.
-    */
-   public class UserLoginTask extends AsyncTask<Void, Void, Boolean>
-   {
+   public class LoginStatusCallback implements StatusCallback {
+
+      // callback when session changes state
       @Override
-      protected Boolean doInBackground(Void... params)
-      {
-         // TODO: attempt authentication against a network service.
+      public void call(Session session, SessionState state, Exception exception) {
+        if (session.isOpened()) {
+           Log.i("Facebook", "Session opened");           
 
-         try
-         {
-            // Simulate network access.
-            Thread.sleep(2000);
-         }
-         catch (InterruptedException e)
-         {
-            return false;
-         }
+          // make request to the /me API
+          Request.newMeRequest(session, new Request.GraphUserCallback() {
 
-         for (String credential : DUMMY_CREDENTIALS)
-         {
-            String[] pieces = credential.split(":");
-            if (pieces[0].equals(mEmail))
-            {
-               // Account exists, return true if the password matches.
-               return pieces[1].equals(mPassword);
+            // callback after Graph API response with user object
+            @Override
+            public void onCompleted(GraphUser user, Response response) {
+              if (user != null) {
+                 Log.i("Facebook", "User available");
+//                TextView welcome = (TextView) findViewById(R.id.welcome);
+//                welcome.setText("Hello " + user.getName() + "!");
+                 finish();
+              }
+              else
+              {
+                 Log.i("Facebook", "Error in newMeRequest");
+//                 mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                 mPasswordView.requestFocus();
+                 setContentView(R.layout.activity_fblogon);
+                 Session.getActiveSession().addCallback(loginCallback);
+              }
+              
             }
-         }
-
-         // TODO: register the new account here.
-         return true;
+          }).executeAsync();
+        }/*
+        else
+        {
+           String x = "Error in StatusCallback.call " + state.toString() + " ";
+           if (exception != null) x = x + exception.getMessage();
+           Log.i("Facebook", x);
+//           mPasswordView.setError(getString(R.string.error_incorrect_password));
+//           mPasswordView.requestFocus();
+           setContentView(R.layout.activity_fblogon);
+           Session.getActiveSession().addCallback(loginCallback);
+        }*/
       }
-
-      @Override
-      protected void onPostExecute(final Boolean success)
-      {
-         mAuthTask = null;
-         showProgress(false);
-
-         if (success)
-         {
-            finish();
-         }
-         else
-         {
-            mPasswordView.setError(getString(R.string.error_incorrect_password));
-            mPasswordView.requestFocus();
-         }
-      }
-
-      @Override
-      protected void onCancelled()
-      {
-         mAuthTask = null;
-         showProgress(false);
-      }
-   }
+    }   
 }

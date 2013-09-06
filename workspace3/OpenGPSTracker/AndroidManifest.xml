@@ -24,7 +24,8 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
+    <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
+    
     <uses-feature
         android:name="android.hardware.location.gps"
         android:required="true" />
@@ -34,7 +35,7 @@
         android:description="@string/app_name"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
-        android:label="@string/app_name" >
+        android:label="@string/app_name" android:vmSafeMode="false">
         <uses-library android:name="com.google.android.maps" />
 
         <meta-data
@@ -243,6 +244,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
+        <activity android:label="@string/app_name" android:name="com.facebook.LoginActivity"></activity>
     </application>
 
 </manifest>
