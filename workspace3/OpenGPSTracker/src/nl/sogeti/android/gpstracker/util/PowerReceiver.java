@@ -21,14 +21,18 @@
  */
 package nl.sogeti.android.gpstracker.util;
 
-import nl.sogeti.android.gpstracker.BuildConfig;
-import nl.sogeti.android.gpstracker.actions.utils.Constants;
-import nl.sogeti.android.gpstracker.logger.GPSLoggerService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import nl.sogeti.android.gpstracker.BuildConfig;
+import nl.sogeti.android.gpstracker.actions.utils.Constants;
+
+import static nl.sogeti.android.gpstracker.logger.GPSLoggerService.COMMAND;
+import static nl.sogeti.android.gpstracker.logger.GPSLoggerService.EXTRA_COMMAND_START;
+import static nl.sogeti.android.gpstracker.logger.GPSLoggerService.EXTRA_COMMAND_STOP;
 
 public class PowerReceiver extends BroadcastReceiver
 {
@@ -61,13 +65,13 @@ public class PowerReceiver extends BroadcastReceiver
       if (start)
       {
          Intent serviceIntent = new Intent(Constants.SERVICENAME);
-         serviceIntent.putExtra(GPSLoggerService.COMMAND, GPSLoggerService.EXTRA_COMMAND_START);
+         serviceIntent.putExtra(COMMAND, EXTRA_COMMAND_START);
          context.startService(serviceIntent);
       }
       else if (stop)
       {
          Intent serviceIntent = new Intent(Constants.SERVICENAME);
-         serviceIntent.putExtra(GPSLoggerService.COMMAND, GPSLoggerService.EXTRA_COMMAND_STOP);
+         serviceIntent.putExtra(COMMAND, EXTRA_COMMAND_STOP);
          context.startService(serviceIntent);
       }
    }

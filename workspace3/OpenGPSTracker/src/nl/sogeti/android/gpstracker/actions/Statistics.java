@@ -28,13 +28,6 @@
  */
 package nl.sogeti.android.gpstracker.actions;
 
-import nl.sogeti.android.gpstracker.R;
-import nl.sogeti.android.gpstracker.actions.utils.GraphCanvas;
-import nl.sogeti.android.gpstracker.actions.utils.StatisticsCalulator;
-import nl.sogeti.android.gpstracker.actions.utils.StatisticsDelegate;
-import nl.sogeti.android.gpstracker.db.GPStracking.Tracks;
-import nl.sogeti.android.gpstracker.util.UnitsI18n;
-import nl.sogeti.android.gpstracker.viewer.TrackList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -42,7 +35,6 @@ import android.app.Dialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.ContentObserver;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -61,6 +53,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+
+import nl.sogeti.android.gpstracker.R;
+import nl.sogeti.android.gpstracker.actions.utils.GraphCanvas;
+import nl.sogeti.android.gpstracker.actions.utils.StatisticsCalulator;
+import nl.sogeti.android.gpstracker.actions.utils.StatisticsDelegate;
+import nl.sogeti.android.gpstracker.db.GPStracking.Tracks;
+import nl.sogeti.android.gpstracker.util.UnitsI18n;
 
 /**
  * Display some calulations based on a track
@@ -303,21 +302,21 @@ public class Statistics extends Activity implements StatisticsDelegate
             showDialog( DIALOG_GRAPHTYPE );
             handled = true;
             break;
-         case MENU_TRACKLIST:
-            intent = new Intent( this, TrackList.class );
-            intent.putExtra( Tracks._ID, mTrackUri.getLastPathSegment() );
-            startActivityForResult( intent, MENU_TRACKLIST );
-            break;
-         case MENU_SHARE:
-            intent = new Intent( Intent.ACTION_RUN );
-            intent.setDataAndType( mTrackUri, Tracks.CONTENT_ITEM_TYPE );
-            intent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
-            Bitmap bm = mViewFlipper.getDrawingCache();
-            Uri screenStreamUri = ShareTrack.storeScreenBitmap(bm);
-            intent.putExtra(Intent.EXTRA_STREAM, screenStreamUri);
-            startActivityForResult(Intent.createChooser( intent, getString( R.string.share_track ) ), MENU_SHARE);
-            handled = true;
-            break;
+//         case MENU_TRACKLIST:
+//            intent = new Intent( this, TrackList.class );
+//            intent.putExtra( Tracks._ID, mTrackUri.getLastPathSegment() );
+//            startActivityForResult( intent, MENU_TRACKLIST );
+//            break;
+//         case MENU_SHARE:
+//            intent = new Intent( Intent.ACTION_RUN );
+//            intent.setDataAndType( mTrackUri, Tracks.CONTENT_ITEM_TYPE );
+//            intent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
+//            Bitmap bm = mViewFlipper.getDrawingCache();
+//           // Uri screenStreamUri = ShareTrack.storeScreenBitmap(bm);
+//           // intent.putExtra(Intent.EXTRA_STREAM, screenStreamUri);
+//            startActivityForResult(Intent.createChooser( intent, getString( R.string.share_track ) ), MENU_SHARE);
+//            handled = true;
+//            break;
          default:
             handled = super.onOptionsItemSelected( item );
       }
@@ -351,7 +350,7 @@ public class Statistics extends Activity implements StatisticsDelegate
             }
             break;
          case MENU_SHARE:
-            ShareTrack.clearScreenBitmap();
+            //ShareTrack.clearScreenBitmap();
             break;
          default:
             Log.w( TAG, "Unknown activity result request code" );

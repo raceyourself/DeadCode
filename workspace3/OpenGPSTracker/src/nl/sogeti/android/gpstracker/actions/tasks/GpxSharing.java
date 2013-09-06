@@ -28,11 +28,10 @@
  */
 package nl.sogeti.android.gpstracker.actions.tasks;
 
-import nl.sogeti.android.gpstracker.R;
-import nl.sogeti.android.gpstracker.actions.ShareTrack;
-import nl.sogeti.android.gpstracker.actions.utils.ProgressListener;
 import android.content.Context;
 import android.net.Uri;
+
+import nl.sogeti.android.gpstracker.actions.utils.ProgressListener;
 
 /**
  * ????
@@ -53,7 +52,7 @@ public class GpxSharing extends GpxCreator
    protected void onPostExecute(Uri resultFilename)
    {
       super.onPostExecute(resultFilename);
-      ShareTrack.sendFile(mContext, resultFilename, mContext.getString(R.string.email_gpxbody), getContentType());
+    //  ShareTrack.sendFile(mContext, resultFilename, mContext.getString(R.string.email_gpxbody), getContentType());
    }
    
 }

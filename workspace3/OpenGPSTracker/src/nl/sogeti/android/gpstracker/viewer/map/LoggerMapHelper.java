@@ -17,7 +17,7 @@ import java.util.concurrent.Semaphore;
 import nl.sogeti.android.gpstracker.R;
 import nl.sogeti.android.gpstracker.actions.ControlTracking;
 import nl.sogeti.android.gpstracker.actions.InsertNote;
-import nl.sogeti.android.gpstracker.actions.ShareTrack;
+
 import nl.sogeti.android.gpstracker.actions.Statistics;
 import nl.sogeti.android.gpstracker.db.GPStracking.Media;
 import nl.sogeti.android.gpstracker.db.GPStracking.Segments;
@@ -29,7 +29,7 @@ import nl.sogeti.android.gpstracker.util.SlidingIndicatorView;
 import nl.sogeti.android.gpstracker.util.UnitsI18n;
 import nl.sogeti.android.gpstracker.viewer.About;
 import nl.sogeti.android.gpstracker.viewer.ApplicationPreferenceActivity;
-import nl.sogeti.android.gpstracker.viewer.TrackList;
+//import nl.sogeti.android.gpstracker.viewer.TrackList;
 import nl.sogeti.android.gpstracker.viewer.map.overlay.BitmapSegmentsOverlay;
 import nl.sogeti.android.gpstracker.viewer.map.overlay.SegmentRendering;
 import android.app.Activity;
@@ -603,17 +603,17 @@ public class LoggerMapHelper
             }
          }
       };
-      mNoTrackDialogListener = new DialogInterface.OnClickListener()
-      {
-         @Override
-         public void onClick(DialogInterface dialog, int which)
-         {
-            //            Log.d( TAG, "mNoTrackDialogListener" + which);
-            Intent tracklistIntent = new Intent(mLoggerMap.getActivity(), TrackList.class);
-            tracklistIntent.putExtra(Tracks._ID, mTrackId);
-            mLoggerMap.getActivity().startActivityForResult(tracklistIntent, MENU_TRACKLIST);
-         }
-      };
+//      mNoTrackDialogListener = new DialogInterface.OnClickListener()
+//      {
+//         @Override
+//         public void onClick(DialogInterface dialog, int which)
+//         {
+//            //            Log.d( TAG, "mNoTrackDialogListener" + which);
+//            Intent tracklistIntent = new Intent(mLoggerMap.getActivity(), TrackList.class);
+//            tracklistIntent.putExtra(Tracks._ID, mTrackId);
+//            mLoggerMap.getActivity().startActivityForResult(tracklistIntent, MENU_TRACKLIST);
+//         }
+//      };
       /**
        * Listeners to events outside this mapview
        */
@@ -788,12 +788,12 @@ public class LoggerMapHelper
             mLoggerMap.getActivity().startActivity(intent);
             handled = true;
             break;
-         case MENU_TRACKLIST:
-            intent = new Intent(mLoggerMap.getActivity(), TrackList.class);
-            intent.putExtra(Tracks._ID, this.mTrackId);
-            mLoggerMap.getActivity().startActivityForResult(intent, MENU_TRACKLIST);
-            handled = true;
-            break;
+//         case MENU_TRACKLIST:
+//            intent = new Intent(mLoggerMap.getActivity(), TrackList.class);
+//            intent.putExtra(Tracks._ID, this.mTrackId);
+//            mLoggerMap.getActivity().startActivityForResult(intent, MENU_TRACKLIST);
+//            handled = true;
+//            break;
          case MENU_STATS:
             if (this.mTrackId >= 0)
             {
@@ -813,17 +813,17 @@ public class LoggerMapHelper
             intent = new Intent(mLoggerMap.getActivity(), About.class);
             mLoggerMap.getActivity().startActivity(intent);
             break;
-         case MENU_SHARE:
-            intent = new Intent(Intent.ACTION_RUN);
-            trackUri = ContentUris.withAppendedId(Tracks.CONTENT_URI, mTrackId);
-            intent.setDataAndType(trackUri, Tracks.CONTENT_ITEM_TYPE);
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Bitmap bm = mLoggerMap.getDrawingCache();
-            Uri screenStreamUri = ShareTrack.storeScreenBitmap(bm);
-            intent.putExtra(Intent.EXTRA_STREAM, screenStreamUri);
-            mLoggerMap.getActivity().startActivityForResult(Intent.createChooser(intent, mLoggerMap.getActivity().getString(R.string.share_track)), MENU_SHARE);
-            handled = true;
-            break;
+//         case MENU_SHARE:
+//            intent = new Intent(Intent.ACTION_RUN);
+//            trackUri = ContentUris.withAppendedId(Tracks.CONTENT_URI, mTrackId);
+//            intent.setDataAndType(trackUri, Tracks.CONTENT_ITEM_TYPE);
+//            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//            Bitmap bm = mLoggerMap.getDrawingCache();
+//            Uri screenStreamUri = ShareTrack.storeScreenBitmap(bm);
+//            intent.putExtra(Intent.EXTRA_STREAM, screenStreamUri);
+//            mLoggerMap.getActivity().startActivityForResult(Intent.createChooser(intent, mLoggerMap.getActivity().getString(R.string.share_track)), MENU_SHARE);
+//            handled = true;
+//            break;
          case MENU_CONTRIB:
             mLoggerMap.getActivity().showDialog(DIALOG_CONTRIB);
          default:
@@ -981,9 +981,9 @@ public class LoggerMapHelper
                }
             }
             break;
-         case MENU_SHARE:
-            ShareTrack.clearScreenBitmap();
-            break;
+//         case MENU_SHARE:
+//            ShareTrack.clearScreenBitmap();
+//            break;
          default:
             Log.e(TAG, "Returned form unknow activity: " + requestCode);
             break;
@@ -1328,7 +1328,7 @@ public class LoggerMapHelper
 
       ContentResolver resolver = mLoggerMap.getActivity().getContentResolver();
       Cursor segments = null;
-      int trackColoringMethod = Integer.valueOf(mSharedPreferences.getString(Constants.TRACKCOLORING, "2")).intValue();
+      int trackColoringMethod = Integer.valueOf(mSharedPreferences.getString(Constants.TRACKCOLORING, "2"));
 
       try
       {
