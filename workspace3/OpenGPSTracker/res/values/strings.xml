@@ -280,5 +280,9 @@ Enter number of feet for acres/hour or meters for use in hectares/hour.\n </stri
     <string name="about_license">License</string>
     <string name="about_contributions">Contributions</string>
     <string name="about_notices">Notices</string>
+    <string name="OSM_CONSUMER_KEY">Key</string>
+    <string name="OSM_CONSUMER_SECRET">secret</string>
+    <string name="CONSUMER_SECRET">test</string>
+    <string name="CONSUMER_KEY">test</string>
 
 </resources>

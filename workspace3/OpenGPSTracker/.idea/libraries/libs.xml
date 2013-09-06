@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="libs">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/osmdroid-android-3.0.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpmime-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/signpost.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/slf4j-android-1.5.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/mapquest-android-sdk-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpclient-cache-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/httpcore-4.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/commons-logging-1.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/fluent-hc-4.2.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

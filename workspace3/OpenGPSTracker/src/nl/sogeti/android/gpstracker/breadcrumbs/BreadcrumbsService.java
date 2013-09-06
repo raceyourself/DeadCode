@@ -12,19 +12,6 @@
  */
 package nl.sogeti.android.gpstracker.breadcrumbs;
 
-import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import nl.sogeti.android.gpstracker.R;
-import nl.sogeti.android.gpstracker.actions.utils.ProgressListener;
-import nl.sogeti.android.gpstracker.oauth.PrepareRequestTokenActivity;
-import nl.sogeti.android.gpstracker.util.Constants;
-import nl.sogeti.android.gpstracker.util.Pair;
-import oauth.signpost.basic.DefaultOAuthConsumer;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +25,20 @@ import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import nl.sogeti.android.gpstracker.R;
+import nl.sogeti.android.gpstracker.actions.utils.ProgressListener;
+import nl.sogeti.android.gpstracker.oauth.PrepareRequestTokenActivity;
+import nl.sogeti.android.gpstracker.util.Constants;
+import nl.sogeti.android.gpstracker.util.Pair;
+import oauth.signpost.basic.DefaultOAuthConsumer;
 
 /**
  * ????

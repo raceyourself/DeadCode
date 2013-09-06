@@ -62,6 +62,8 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import static nl.sogeti.android.gpstracker.R.string.OSM_CONSUMER_KEY;
+
 /**
  * ????
  * 
@@ -239,8 +241,7 @@ public class OsmSharing extends GpxCreator
       DefaultOAuthConsumer consumer = null;
       if (mAuthorized)
       {
-         consumer = new DefaultOAuthConsumer(mContext.getString(R.string.OSM_CONSUMER_KEY),
-               mContext.getString(R.string.OSM_CONSUMER_SECRET));
+         consumer = new DefaultOAuthConsumer(mContext.getString(OSM_CONSUMER_KEY), mContext.getString(R.string.OSM_CONSUMER_SECRET));
          consumer.setTokenWithSecret(token, secret);
       }
       return consumer;
@@ -293,7 +294,7 @@ public class OsmSharing extends GpxCreator
       intent.putExtra(PrepareRequestTokenActivity.OAUTH_TOKEN_PREF, OAUTH_TOKEN);
       intent.putExtra(PrepareRequestTokenActivity.OAUTH_TOKEN_SECRET_PREF, OAUTH_TOKEN_SECRET);
 
-      intent.putExtra(PrepareRequestTokenActivity.CONSUMER_KEY, mContext.getString(R.string.OSM_CONSUMER_KEY));
+      intent.putExtra(PrepareRequestTokenActivity.CONSUMER_KEY, mContext.getString(OSM_CONSUMER_KEY));
       intent.putExtra(PrepareRequestTokenActivity.CONSUMER_SECRET, mContext.getString(R.string.OSM_CONSUMER_SECRET));
       intent.putExtra(PrepareRequestTokenActivity.REQUEST_URL, Constants.OSM_REQUEST_URL);
       intent.putExtra(PrepareRequestTokenActivity.ACCESS_URL, Constants.OSM_ACCESS_URL);

@@ -76,7 +76,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.google.android.maps.GeoPoint;
-
 /**
  * ????
  * 
