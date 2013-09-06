@@ -1,9 +1,11 @@
 package nl.sogeti.android.gpstracker;
 
+import nl.sogeti.android.gpstracker.viewer.map.CommonLoggerMap;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,8 +60,6 @@ public class FBLogon extends Activity
 
       setContentView(R.layout.activity_fblogon);
       
-      Log.i("Facebook", "Initialized");
-
       // Set up the login form.
       mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
       mEmailView = (EditText) findViewById(R.id.email);
@@ -112,12 +112,6 @@ public class FBLogon extends Activity
     */
    public void attemptLogin()
    {
-/*            
-      if (mAuthTask != null)
-      {
-         return;
-      }
-*/
       // Reset errors.
       mEmailView.setError(null);
       mPasswordView.setError(null);
@@ -170,9 +164,7 @@ public class FBLogon extends Activity
          mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
          showProgress(true);
 
-         Log.i("Facebook", "Opening session - pre");
          Session.openActiveSession(this, true, loginCallback);         
-         Log.i("Facebook", "Opening session - post");
          
       }
    }
@@ -218,7 +210,20 @@ public class FBLogon extends Activity
          mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
       }
    }
-
+   
+   public void mapView() {
+      Intent intent = new Intent(this, CommonLoggerMap.class);
+      startActivity(intent);
+      
+      finish();      
+   }
+   
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+   }
+   
    public class LoginStatusCallback implements StatusCallback {
 
       // callback when session changes state
@@ -234,10 +239,9 @@ public class FBLogon extends Activity
             @Override
             public void onCompleted(GraphUser user, Response response) {
               if (user != null) {
-                 Log.e("Facebook", "User available");
-//                TextView welcome = (TextView) findViewById(R.id.welcome);
-//                welcome.setText("Hello " + user.getName() + "!");
-                 finish();
+                 Log.e("Facebook", "User available: " + user.getName());
+                 
+                 mapView();
               }
               else
               {
@@ -245,22 +249,20 @@ public class FBLogon extends Activity
 //                 mPasswordView.setError(getString(R.string.error_incorrect_password));
 //                 mPasswordView.requestFocus();
                  setContentView(R.layout.activity_fblogon);
-//                 Session.getActiveSession().addCallback(loginCallback);
               }
               
             }
           }).executeAsync();
-        }/*
+        }
         else
         {
-           String x = "Error in StatusCallback.call " + state.toString() + " ";
+           String x = "Session not opened " + state.toString() + " ";
            if (exception != null) x = x + exception.getMessage();
            Log.i("Facebook", x);
 //           mPasswordView.setError(getString(R.string.error_incorrect_password));
 //           mPasswordView.requestFocus();
-           setContentView(R.layout.activity_fblogon);
-           Session.getActiveSession().addCallback(loginCallback);
-        }*/
+//           setContentView(R.layout.activity_fblogon);
+        }
       }
     }   
 }

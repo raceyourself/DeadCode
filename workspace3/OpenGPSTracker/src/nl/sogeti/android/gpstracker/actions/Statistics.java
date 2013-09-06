@@ -60,6 +60,7 @@ import nl.sogeti.android.gpstracker.actions.utils.StatisticsCalulator;
 import nl.sogeti.android.gpstracker.actions.utils.StatisticsDelegate;
 import nl.sogeti.android.gpstracker.db.GPStracking.Tracks;
 import nl.sogeti.android.gpstracker.util.UnitsI18n;
+import nl.sogeti.android.gpstracker.viewer.TrackList;
 
 /**
  * Display some calulations based on a track
@@ -302,7 +303,6 @@ public class Statistics extends Activity implements StatisticsDelegate
             showDialog( DIALOG_GRAPHTYPE );
             handled = true;
             break;
-<<<<<<< HEAD
          case MENU_TRACKLIST:
             intent = new Intent( this, TrackList.class );
             intent.putExtra( Tracks._ID, mTrackUri.getLastPathSegment() );
@@ -319,24 +319,6 @@ public class Statistics extends Activity implements StatisticsDelegate
             handled = true;
             break;
 */         default:
-=======
-//         case MENU_TRACKLIST:
-//            intent = new Intent( this, TrackList.class );
-//            intent.putExtra( Tracks._ID, mTrackUri.getLastPathSegment() );
-//            startActivityForResult( intent, MENU_TRACKLIST );
-//            break;
-//         case MENU_SHARE:
-//            intent = new Intent( Intent.ACTION_RUN );
-//            intent.setDataAndType( mTrackUri, Tracks.CONTENT_ITEM_TYPE );
-//            intent.addFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
-//            Bitmap bm = mViewFlipper.getDrawingCache();
-//           // Uri screenStreamUri = ShareTrack.storeScreenBitmap(bm);
-//           // intent.putExtra(Intent.EXTRA_STREAM, screenStreamUri);
-//            startActivityForResult(Intent.createChooser( intent, getString( R.string.share_track ) ), MENU_SHARE);
-//            handled = true;
-//            break;
-         default:
->>>>>>> a6ff4c5a8300eb0c5cd68a4a6d9a3066e6dac9a8
             handled = super.onOptionsItemSelected( item );
       }
       return handled;
@@ -368,7 +350,6 @@ public class Statistics extends Activity implements StatisticsDelegate
                drawTrackingStatistics();
             }
             break;
-<<<<<<< HEAD
 /*         case MENU_SHARE:
             ShareTrack.clearScreenBitmap();
 =======
