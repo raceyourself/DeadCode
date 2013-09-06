@@ -57,6 +57,8 @@ public class FBLogon extends Activity
       super.onCreate(savedInstanceState);
 
       setContentView(R.layout.activity_fblogon);
+      
+      Log.i("Facebook", "Initialized");
 
       // Set up the login form.
       mEmail = getIntent().getStringExtra(EXTRA_EMAIL);
@@ -79,6 +81,8 @@ public class FBLogon extends Activity
          });
       
       Settings.addLoggingBehavior(LoggingBehavior.REQUESTS);
+      Settings.addLoggingBehavior(LoggingBehavior.APP_EVENTS);
+      Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_RAW_RESPONSES);
       
       mLoginFormView = findViewById(R.id.login_form);
       mLoginStatusView = findViewById(R.id.login_status);
@@ -166,7 +170,9 @@ public class FBLogon extends Activity
          mLoginStatusMessageView.setText(R.string.login_progress_signing_in);
          showProgress(true);
 
+         Log.i("Facebook", "Opening session - pre");
          Session.openActiveSession(this, true, loginCallback);         
+         Log.i("Facebook", "Opening session - post");
          
       }
    }
@@ -219,7 +225,7 @@ public class FBLogon extends Activity
       @Override
       public void call(Session session, SessionState state, Exception exception) {
         if (session.isOpened()) {
-           Log.i("Facebook", "Session opened");           
+           Log.e("Facebook", "Session opened");           
 
           // make request to the /me API
           Request.newMeRequest(session, new Request.GraphUserCallback() {
@@ -228,18 +234,18 @@ public class FBLogon extends Activity
             @Override
             public void onCompleted(GraphUser user, Response response) {
               if (user != null) {
-                 Log.i("Facebook", "User available");
+                 Log.e("Facebook", "User available");
 //                TextView welcome = (TextView) findViewById(R.id.welcome);
 //                welcome.setText("Hello " + user.getName() + "!");
                  finish();
               }
               else
               {
-                 Log.i("Facebook", "Error in newMeRequest");
+                 Log.e("Facebook", "Error in newMeRequest");
 //                 mPasswordView.setError(getString(R.string.error_incorrect_password));
 //                 mPasswordView.requestFocus();
                  setContentView(R.layout.activity_fblogon);
-                 Session.getActiveSession().addCallback(loginCallback);
+//                 Session.getActiveSession().addCallback(loginCallback);
               }
               
             }

@@ -180,7 +180,6 @@
                 </action>
             </intent-filter>
         </service>
-        <service android:name="nl.sogeti.android.gpstracker.breadcrumbs.BreadcrumbsService" />
 
         <provider
             android:name="nl.sogeti.android.gpstracker.db.GPStrackingProvider"
