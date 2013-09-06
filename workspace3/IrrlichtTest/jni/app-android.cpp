@@ -115,6 +115,7 @@ void initQuake()
 
 void initSydney()
 {
+	int dummy = 1;
     smgr = device->getSceneManager();
     guienv = device->getGUIEnvironment();
  
@@ -226,7 +227,7 @@ void nativeDrawIterationSydney()
 
 
 	int fps = driver->getFPS();
-    __android_log_print(ANDROID_LOG_INFO, "Irrlicht", "Sydney fps=%d", fps);
+    if (counter % 100 == 0) __android_log_print(ANDROID_LOG_INFO, "Irrlicht", "Sydney fps=%d", fps);
 
 }
 
