@@ -6,30 +6,7 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d31a03b-7950-466d-8e8f-59e31a653b8d" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/adapter/BreadcrumbsAdapter.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/adapter/BreadcrumbsTracks.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/BreadcrumbsService.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/BreadcrumbsTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/BreadcrumbsTracks.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/DownloadBreadcrumbsTrackTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/GetBreadcrumbsActivitiesTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/GetBreadcrumbsBundlesTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/GetBreadcrumbsTracksTask.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/breadcrumbs/UploadBreadcrumbsTrackTask.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AndroidManifest.xml" afterPath="$PROJECT_DIR$/AndroidManifest.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/DescribeTrack.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/DescribeTrack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/GpxSharing.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/GpxSharing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/JogmapSharing.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/JogmapSharing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/KmzSharing.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/KmzSharing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/viewer/map/LoggerMapHelper.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/viewer/map/LoggerMapHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/OsmSharing.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/tasks/OsmSharing.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/util/PowerReceiver.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/util/PowerReceiver.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/ShareTrack.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/ShareTrack.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/Statistics.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/actions/Statistics.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/viewer/TrackList.java" afterPath="$PROJECT_DIR$/src/nl/sogeti/android/gpstracker/viewer/TrackList.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="8d31a03b-7950-466d-8e8f-59e31a653b8d" name="Default" comment="" />
     <ignored path="OpenGPSTracker.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />

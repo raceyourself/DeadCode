@@ -13,7 +13,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="libs1" level="project" />
+    <orderEntry type="library" name="starcore_android_r31" level="project" />
+    <orderEntry type="library" name="starcore_android_r3" level="project" />
   </component>
 </module>
 

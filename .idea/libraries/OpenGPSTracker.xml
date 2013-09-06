@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="OpenGPSTracker">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

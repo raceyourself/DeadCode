@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name=".mylyn">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/android/workspace.examples/.metadata/.mylyn/.tasks.xml.zip!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/android/workspace.examples/.metadata/.mylyn/tasks.xml.zip!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/android/workspace.examples/.metadata/.mylyn/repositories.xml.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

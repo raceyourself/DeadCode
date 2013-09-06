@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="starcore_android_r31">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/cle_files/libs/starcore_android_r3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/android/workspace.examples/HelloWorld/HelloWorld.iml" filepath="$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/android/workspace.examples/HelloWorld/HelloWorld.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workspace3/IrrlichtTest/IrrlichtTest.iml" filepath="$PROJECT_DIR$/workspace3/IrrlichtTest/IrrlichtTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workspace3/MainActivity/MainActivity.iml" filepath="$PROJECT_DIR$/workspace3/MainActivity/MainActivity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workspace3/OpenGPSTracker/OpenGPSTracker.iml" filepath="$PROJECT_DIR$/workspace3/OpenGPSTracker/OpenGPSTracker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/win32/examples/examples.iml" filepath="$PROJECT_DIR$/workspace3/wrapirrlicht-for-android/win32/examples/examples.iml" />
+    </modules>
+  </component>
+</project>
+

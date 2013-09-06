@@ -1,0 +1,20 @@
+<component name="libraryTable">
+  <library name="libs1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/osmdroid-android-3.0.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/httpmime-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/signpost.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/slf4j-android-1.5.8.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/android-support-v4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/httpclient-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/commons-codec-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/mapquest-android-sdk-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/httpclient-cache-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/httpcore-4.2.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/fluent-hc-4.2.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/workspace3/OpenGPSTracker/libs/commons-logging-1.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
