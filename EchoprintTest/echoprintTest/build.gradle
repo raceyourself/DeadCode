@@ -1,0 +1,23 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 17
+    buildToolsVersion "20.0.0"
+
+    defaultConfig {
+        applicationId "edu.gvsu.masl"
+        minSdkVersion 11
+        targetSdkVersion 11
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile project(':echoprintLib')
+}
