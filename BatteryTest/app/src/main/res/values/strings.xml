@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">BatteryTest</string>
+    <string name="title_activity_battery_menu">Battery Test</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="simple_test">Simple App</string>
+    <string name="video_standby">Video (standby)</string>
+    <string name="video_record">Video (recording)</string>
+    <string name="audio">Audio</string>
+    <string name="ble">BLE</string>
+    <string name="sensors">Sensors</string>
+    <string name="title_activity_simple_test">SimpleTestActivity</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
