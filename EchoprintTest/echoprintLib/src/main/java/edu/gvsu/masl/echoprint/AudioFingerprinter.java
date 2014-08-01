@@ -47,6 +47,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
@@ -208,154 +209,109 @@ public class AudioFingerprinter implements Runnable
 					} 
 					while (samplesIn < bufferSize);				
 					Log.d("Fingerprinter", "Audio recorded: " + (System.currentTimeMillis() - time) + " millis");
-										
-					// see if the process was stopped.
-					if(mRecordInstance.getRecordingState() == AudioRecord.RECORDSTATE_STOPPED || (!firstRun && !this.continuous))
-						break;
-					
+
+                    didFinishListeningPass();
+
 					// create an echoprint codegen wrapper and get the code
 					time = System.currentTimeMillis();
 					Codegen codegen = new Codegen();
+                    willStartCodegenPass();
 	    			String code = codegen.generate(audioData, samplesIn);
 	    			Log.d("Fingerprinter", "Codegen created in: " + (System.currentTimeMillis() - time) + " millis");
-	    			
-	    			if(code.length() == 0)
+                    didFinishCodegenPass();
+
+	    			if(code.length() < 50*10)
 	    			{
 	    				// no code?
 	    				// not enough audio data?
+                        didNotFindMatchForCode(code);
 						continue;
 	    			}
 
 	    			didGenerateFingerprintCode(code);
                     Log.e("Fingerprinter", "code " + code.length());
 
-
-                    byte[] bytes = Base64.decode(code.getBytes("UTF-8"), Base64.URL_SAFE);
-                    Log.e("Fingerprinter", "decoded " + bytes.length);
-
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    InflaterOutputStream dos = new InflaterOutputStream(baos);
-                    dos.write(bytes);
-                    dos.finish();
-                    dos.flush();
-                    byte[] deflated = baos.toByteArray();
-                    Log.e("Fingerprinter", "decompressed " + deflated.length);
-
-                    int n = deflated.length / 10;
-                    int split = n*5;
-                    List<Pair<Long, Long>> tuples = new ArrayList<Pair<Long, Long>>(n);
-                    for (int i=0; i<n; i++) {
-                        int ts_i = i*5;
-                        String hexTimestamp = new String(deflated, ts_i, 5, "utf-8");
-                        int hash_i = split + i*5;
-                        String hexHash = new String(deflated, hash_i, 5, "utf-8");
-
-                        long timestamp = Long.parseLong(hexTimestamp, 16);
-                        long hash = Long.parseLong(hexHash, 16);
-
-                        tuples.add(new Pair<Long, Long>(new Long(hash), new Long(timestamp)));
-
+                    List<Pair<Long,Long>> tuples = decodeFingerprint(code);
+                    if(tuples.size() < 50)
+                    {
+                        didNotFindMatchForCode(code);
+                        continue;
                     }
+                    Pair<String, String> best = bestMatch(tuples);
 
-                    Set<Long> uniqueKeys = new HashSet<Long>(); // Unique keys
-                    Map<String, Integer> matchHits = new HashMap<String, Integer>(); // Frequency of matched ids
-                    for (Pair<Long, Long> tuple : tuples) {
-                        long hash = tuple.first;
-                        if (!uniqueKeys.contains(hash)) {
-                            uniqueKeys.add(hash);
-                            List<String> ids = reverseIndex.get(hash);
-                            if (ids == null) ids = new LinkedList<String>();
-                            for (String id : ids) {
-                                Integer count = matchHits.get(id);
-                                if (count == null) count = 1;
-                                else count++;
-                                matchHits.put(id, count);
-                            }
-                        }
-                    }
+                    if (best == null) {
+                        didNotFindMatchForCode(code);
+                    } else {
+                        Hashtable<String, String> match = new Hashtable<String, String>();
+                        match.put(SCORE_KEY, best.second);
+                        match.put(TRACK_ID_KEY, best.first);
 
-                    for (Map.Entry<String, Integer> entry : matchHits.entrySet()) {
-                        String matchId = entry.getKey();
-                        int hits = entry.getValue();
-                        Log.e("Fingerprinter", "Matched " + matchId + " with " + (hits*100/tuples.size()) + "%, actual "
-                                                                               + (actualRank(tuples, fingerprints.get(matchId))*100/tuples.size()) + "%");
+                        didFindMatchForCode(match, code);
                     }
 
 
-                    // Insert into db
-                    String newId = "BOB" + idSequence.addAndGet(1);
-                    fingerprints.put(newId, tuples);
-                    for (Pair<Long, Long> tuple : tuples) {
-                        long hash = tuple.first;
-                        List<String> ids = reverseIndex.get(hash);
-                        if (ids == null) ids = new LinkedList<String>();
-                        ids.add(newId);
-                        reverseIndex.put(hash, ids);
-                    }
-
-                    // fetch data from echonest
-	    			time = System.currentTimeMillis();
-	    			
-					String urlstr = SERVER_URL + code;			
-					Log.d("Fingerprinter", urlstr);
-					HttpClient client = new DefaultHttpClient();
-	    			HttpGet get = new HttpGet(urlstr);
-	    			
-	    			// get response
-	    			HttpResponse response = client.execute(get);                
-	    			// Examine the response status
-	    	        Log.d("Fingerprinter",response.getStatusLine().toString());
-	
-	    	        // Get hold of the response entity
-	    	        HttpEntity entity = response.getEntity();
-	    	        // If the response does not enclose an entity, there is no need
-	    	        // to worry about connection release
-	
-	    	        String result = "";
-	    	        if (entity != null) 
-	    	        {
-	    	            // A Simple JSON Response Read
-	    	            InputStream instream = entity.getContent();
-	    	            result= convertStreamToString(instream);
-	    	            // now you have the string representation of the HTML request
-	    	            instream.close();
-	    	        }
-	     			Log.d("Fingerprinter", "Results fetched in: " + (System.currentTimeMillis() - time) + " millis\n"+result);
-	    			
-	     			
-	    			// parse JSON
-		    		JSONObject w = new JSONObject(result);
-		    		JSONObject r = w.getJSONObject("response");
-		    		JSONObject status = r.getJSONObject("status");
-		    		JSONArray songs = r.getJSONArray("songs");
-		    				
-		    		
-		    		
-		    		if(status.has("code"))
-		    			Log.d("Fingerprinter", "Response code:" + status.getInt("code") + " (" + this.messageForCode(status.getInt("code")) + ")");
-		    		
-		    		if(songs != null && songs.length() > 0)
-		    		{
-		    		    for(int i=0; i< songs.length();i++) {
-		    		        JSONObject jo = (JSONObject)songs.get(i);
-		    				Hashtable<String, String> match = new Hashtable<String, String>();
-		    				match.put(SCORE_KEY, jo.getInt("score") + "");
-		    				match.put(TRACK_ID_KEY, jo.getString("id"));
-		    				
-                            match.put(TITLE_KEY, jo.getString("title"));
-                            match.put(ARTIST_KEY, jo.getString("artist_name"));
-		    				
-		    				didFindMatchForCode(match, code);
-		    			}
-		    		}	    		
-		    		else
-		    		{
-                        didNotFindMatchForCode(code);                   
-		    		}
-		    		
-		    		firstRun = false;
+//                    // fetch data from echonest
+//	    			time = System.currentTimeMillis();
+//
+//					String urlstr = SERVER_URL + code;
+//					Log.d("Fingerprinter", urlstr);
+//					HttpClient client = new DefaultHttpClient();
+//	    			HttpGet get = new HttpGet(urlstr);
+//
+//	    			// get response
+//	    			HttpResponse response = client.execute(get);
+//	    			// Examine the response status
+//	    	        Log.d("Fingerprinter",response.getStatusLine().toString());
+//
+//	    	        // Get hold of the response entity
+//	    	        HttpEntity entity = response.getEntity();
+//	    	        // If the response does not enclose an entity, there is no need
+//	    	        // to worry about connection release
+//
+//	    	        String result = "";
+//	    	        if (entity != null)
+//	    	        {
+//	    	            // A Simple JSON Response Read
+//	    	            InputStream instream = entity.getContent();
+//	    	            result= convertStreamToString(instream);
+//	    	            // now you have the string representation of the HTML request
+//	    	            instream.close();
+//	    	        }
+//	     			Log.d("Fingerprinter", "Results fetched in: " + (System.currentTimeMillis() - time) + " millis\n"+result);
+//
+//
+//	    			// parse JSON
+//		    		JSONObject w = new JSONObject(result);
+//		    		JSONObject r = w.getJSONObject("response");
+//		    		JSONObject status = r.getJSONObject("status");
+//		    		JSONArray songs = r.getJSONArray("songs");
+//
+//
+//
+//		    		if(status.has("code"))
+//		    			Log.d("Fingerprinter", "Response code:" + status.getInt("code") + " (" + this.messageForCode(status.getInt("code")) + ")");
+//
+//		    		if(songs != null && songs.length() > 0)
+//		    		{
+//		    		    for(int i=0; i< songs.length();i++) {
+//		    		        JSONObject jo = (JSONObject)songs.get(i);
+//		    				Hashtable<String, String> match = new Hashtable<String, String>();
+//		    				match.put(SCORE_KEY, jo.getInt("score") + "");
+//		    				match.put(TRACK_ID_KEY, jo.getString("id"));
+//
+//                            match.put(TITLE_KEY, jo.getString("title"));
+//                            match.put(ARTIST_KEY, jo.getString("artist_name"));
+//
+//		    				didFindMatchForCode(match, code);
+//		    			}
+//		    		}
+//		    		else
+//		    		{
+//                        didNotFindMatchForCode(code);
+//		    		}
+//
+//		    		firstRun = false;
 				
-		    		didFinishListeningPass();
 				}
 				catch(Exception e)
 				{
@@ -386,8 +342,73 @@ public class AudioFingerprinter implements Runnable
 		didFinishListening();
 	}
 
+    private static List<Pair<Long, Long>> decodeFingerprint(String code) throws IOException {
+        byte[] bytes = Base64.decode(code.getBytes("UTF-8"), Base64.URL_SAFE);
+        Log.e("Fingerprinter", "decoded " + bytes.length);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        InflaterOutputStream dos = new InflaterOutputStream(baos);
+        dos.write(bytes);
+        dos.finish();
+        dos.flush();
+        byte[] deflated = baos.toByteArray();
+        Log.e("Fingerprinter", "decompressed " + deflated.length);
+
+        int n = deflated.length / 10;
+        int split = n*5;
+        List<Pair<Long, Long>> tuples = new ArrayList<Pair<Long, Long>>(n);
+        for (int i=0; i<n; i++) {
+            int ts_i = i*5;
+            String hexTimestamp = new String(deflated, ts_i, 5, "utf-8");
+            int hash_i = split + i*5;
+            String hexHash = new String(deflated, hash_i, 5, "utf-8");
+
+            long timestamp = Long.parseLong(hexTimestamp, 16);
+            long hash = Long.parseLong(hexHash, 16);
+
+            tuples.add(new Pair<Long, Long>(new Long(hash), new Long(timestamp)));
+        }
+        return tuples;
+    }
+
+    private Pair <String, String> bestMatch(List<Pair<Long, Long>> tuples) {
+        Set<Long> uniqueKeys = new HashSet<Long>(); // Unique keys
+        Map<String, Integer> matchHits = new HashMap<String, Integer>(); // Frequency of matched ids
+        for (Pair<Long, Long> tuple : tuples) {
+            long hash = tuple.first;
+            if (!uniqueKeys.contains(hash)) {
+                uniqueKeys.add(hash);
+                List<String> ids = reverseIndex.get(hash);
+                if (ids == null) ids = new LinkedList<String>();
+                for (String id : ids) {
+                    Integer count = matchHits.get(id);
+                    if (count == null) count = 1;
+                    else count++;
+                    matchHits.put(id, count);
+                }
+            }
+        }
+
+        String bestId = null;
+        Integer rank = null;
+        for (Map.Entry<String, Integer> entry : matchHits.entrySet()) {
+            String matchId = entry.getKey();
+            int hits = entry.getValue();
+            int r = actualRank(tuples, fingerprints.get(matchId));
+            Log.i("Fingerprinter", "Matched " + matchId + " with " + (hits*100/tuples.size()) + "%, actual " + (r*100/tuples.size()) + "%");
+            if (rank == null || rank < r) {
+                rank = r;
+                bestId = matchId;
+            }
+        }
+        if (bestId == null) return null;
+        if (rank*100/tuples.size() < 5) return null; // Ignore low matches
+
+        return new Pair<String, String>(bestId, String.valueOf(rank*100/tuples.size()) + '%');
+    }
+
     private static int actualRank(List<Pair<Long, Long>> lookup, List<Pair<Long, Long>> fingerprint) {
-        final int slop = 2;
+        final int slop = 5;
         Map<Long, List<Long>> hashTimes = new HashMap<Long, List<Long>>();
         Long startTime = null;
         for (Pair<Long, Long> tuple : lookup) {
@@ -465,6 +486,22 @@ public class AudioFingerprinter implements Runnable
             result.put( entry.getKey(), entry.getValue() );
         }
         return result;
+    }
+
+    public String insertFingerprint(String id, String code) throws IOException {
+        List<Pair<Long,Long>> tuples = decodeFingerprint(code);
+
+        // Insert into db
+        fingerprints.put(id, tuples);
+        for (Pair<Long, Long> tuple : tuples) {
+            long hash = tuple.first;
+            List<String> ids = reverseIndex.get(hash);
+            if (ids == null) ids = new LinkedList<String>();
+            ids.add(id);
+            reverseIndex.put(hash, ids);
+        }
+
+        return id;
     }
 
 	private static String convertStreamToString(InputStream is) 
@@ -571,8 +608,48 @@ public class AudioFingerprinter implements Runnable
 		else	
 			listener.willStartListening();
 	}
-	
-	private void willStartListeningPass()
+
+    private void didFinishCodegenPass()
+    {
+        if(listener == null)
+            return;
+
+        if(listener instanceof Activity)
+        {
+            Activity activity = (Activity) listener;
+            activity.runOnUiThread(new Runnable()
+            {
+                public void run()
+                {
+                    listener.didFinishCodegenPass();
+                }
+            });
+        }
+        else
+            listener.didFinishCodegenPass();
+    }
+
+    private void willStartCodegenPass()
+    {
+        if(listener == null)
+            return;
+
+        if(listener instanceof Activity)
+        {
+            Activity activity = (Activity) listener;
+            activity.runOnUiThread(new Runnable()
+            {
+                public void run()
+                {
+                    listener.willStartCodegenPass();
+                }
+            });
+        }
+        else
+            listener.willStartCodegenPass();
+    }
+
+    private void willStartListeningPass()
 	{
 		if(listener == null)
 			return;
@@ -689,8 +766,18 @@ public class AudioFingerprinter implements Runnable
 		 * Called when a single fingerprinter pass has finished
 		 */
 		public void didFinishListeningPass();
-		
-		/**
+
+        /**
+         * Called when a single codegen pass has finished
+         */
+        public void didFinishCodegenPass();
+
+        /**
+         * Called when a single codegen pass is about to start
+         */
+        public void willStartCodegenPass();
+
+        /**
 		 * Called when the fingerprinter is about to start
 		 */
 		public void willStartListening();
