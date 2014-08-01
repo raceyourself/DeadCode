@@ -14,9 +14,12 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * Created by Amerigo on 31/07/2014.
  */
+@Slf4j
 public class BaseTestActivity extends Activity {
     Timer timer;
     TimerTask timerTask;
@@ -40,12 +43,12 @@ public class BaseTestActivity extends Activity {
 
         if(timer != null) timer.cancel();
 
-        Log.i(tag, testName + " test started at " + new Date().toString());
+        log.info(testName + " test started at " + new Date().toString());
 
         try {
-            Log.i(tag, testName + " temperature 1 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature1));
-            Log.i(tag, testName + " temperature 2 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature2));
-            Log.i(tag, testName + " temperature 3 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature3));
+            log.info(testName + " temperature 1 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature1));
+            log.info(testName + " temperature 2 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature2));
+            log.info(testName + " temperature 3 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature3));
         } catch(IOException e) {
             e.printStackTrace();
         }
@@ -54,11 +57,11 @@ public class BaseTestActivity extends Activity {
         timerTask = new TimerTask() {
             @Override
             public void run() {
-                Log.i(tag, testName + " test update time at " + new Date().toString());
+                log.info(testName + " test update time at " + new Date().toString());
                 try {
-                    Log.i(tag, testName + " temperature 1 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature1));
-                    Log.i(tag, testName + " temperature 2 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature2));
-                    Log.i(tag, testName + " temperature 3 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature3));
+                    log.info(testName + " temperature 1 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature1));
+                    log.info(testName + " temperature 2 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature2));
+                    log.info(testName + " temperature 3 test is " + org.apache.commons.io.FileUtils.readFileToString(temperature3));
                 } catch(IOException e) {
                     e.printStackTrace();
                 }
@@ -74,7 +77,7 @@ public class BaseTestActivity extends Activity {
 
     @Override
     public void onDestroy() {
-        Log.i(tag, testName + " test ended at " + new Date().toString());
+        log.info(testName + " test ended at " + new Date().toString());
         timer.cancel();
         super.onDestroy();
     }
