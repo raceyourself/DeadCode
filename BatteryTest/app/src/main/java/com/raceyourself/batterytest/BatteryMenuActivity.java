@@ -40,20 +40,6 @@ public class BatteryMenuActivity extends Activity {
     /** Gesture detector used to present the options menu. */
     private GestureDetector mGestureDetector;
 
-    private final GestureDetector.BaseListener mBaseListener = new GestureDetector.BaseListener() {
-        @Override
-        public boolean onGesture(Gesture gesture) {
-            if(gesture == Gesture.TAP) {
-                mAudioManager.playSoundEffect(Sounds.TAP);
-                openOptionsMenu();
-                return true;
-            } else {
-                return false;
-            }
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle bundle) {
         super.onCreate(bundle);
@@ -65,7 +51,18 @@ public class BatteryMenuActivity extends Activity {
         Log.i("BatteryMenuActivity", "Activity created");
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        if(Build.MODEL.contains("Glass")) mGestureDetector = new GestureDetector(this).setBaseListener(mBaseListener);
+        if(Build.MODEL.contains("Glass")) mGestureDetector = new GestureDetector(this).setBaseListener(new GestureDetector.BaseListener() {
+            @Override
+            public boolean onGesture(Gesture gesture) {
+                if(gesture == Gesture.TAP) {
+                    mAudioManager.playSoundEffect(Sounds.TAP);
+                    openOptionsMenu();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
     }
 
     @Override

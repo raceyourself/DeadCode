@@ -3,11 +3,14 @@ package com.raceyourself.batterytest;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaRecorder;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
 
 import com.google.android.glass.media.Sounds;
 import com.google.android.glass.touchpad.Gesture;
@@ -29,34 +32,54 @@ public class VideoRecordActivity extends VideoActivity implements SurfaceHolder.
 
     private boolean recording = false;
 
-    private final GestureDetector.BaseListener mBaseListener = new GestureDetector.BaseListener() {
-        @Override
-        public boolean onGesture(Gesture gesture) {
-            if(gesture == Gesture.TAP) {
-                mAudioManager.playSoundEffect(Sounds.TAP);
-                if(!recording){
-                    recorder.start();
-                    recording = true;
-                    Log.i(tag, testName + " recording started at " + new Date().toString());
-                } else {
-                    recording = false;
-                    recorder.stop();
-                }
-                return true;
-            } else {
-                return false;
-            }
-
-        }
-    };
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTagAndName("VideoRecordActivity", "Video record");
         super.onCreate(savedInstanceState);
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mGestureDetector = new GestureDetector(this).setBaseListener(mBaseListener);
+
+        if(Build.MODEL.contains("Glass")) {
+            mGestureDetector = new GestureDetector(this).setBaseListener(new GestureDetector.BaseListener() {
+                @Override
+                public boolean onGesture(Gesture gesture) {
+                    if (gesture == Gesture.TAP) {
+                        mAudioManager.playSoundEffect(Sounds.TAP);
+                        if (!recording) {
+                            recorder.start();
+                            recording = true;
+                            Log.i(tag, testName + " recording started at " + new Date().toString());
+                        } else {
+                            recording = false;
+                            recorder.stop();
+                        }
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
+        } else {
+            SurfaceView cameraView = (SurfaceView)findViewById(R.id.cameraView);
+            cameraView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!recording) {
+                        recorder.start();
+                        recording = true;
+                        Log.i(tag, testName + " recording started at " + new Date().toString());
+                    } else {
+                        recording = false;
+                        recorder.stop();
+                        try {
+                            camera.reconnect();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+        }
     }
 
     @Override
