@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -64,7 +65,7 @@ public class BatteryMenuActivity extends Activity {
         Log.i("BatteryMenuActivity", "Activity created");
 
         mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-        mGestureDetector = new GestureDetector(this).setBaseListener(mBaseListener);
+        if(Build.MODEL.contains("Glass")) mGestureDetector = new GestureDetector(this).setBaseListener(mBaseListener);
     }
 
     @Override
