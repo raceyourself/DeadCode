@@ -96,6 +96,10 @@ public class BatteryMenuActivity extends Activity {
                 Intent bleIntent = new Intent(this, BLEActivity.class);
                 startActivity(bleIntent);
                 break;
+            case R.id.audio:
+                Intent audioIntent = new Intent(this, AudioActivity.class);
+                startActivity(audioIntent);
+                break;
         }
         return true;
     }

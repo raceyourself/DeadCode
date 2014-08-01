@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Playing song"
+        android:id="@+id/audioResults"
+        android:text="Audio results"
         android:textAppearance="?android:attr/textAppearanceLarge"
         />
 
