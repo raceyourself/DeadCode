@@ -38,6 +38,7 @@ public class SensorActivity extends BaseTestActivity {
     @Override
     public void onDestroy() {
         unbindService(sensorServiceConnection);
+        super.onDestroy();
     }
 
     private ServiceConnection sensorServiceConnection = new ServiceConnection() {
