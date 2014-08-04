@@ -229,7 +229,7 @@ public class AudioFingerprinter implements Runnable
 	    			}
 
 	    			didGenerateFingerprintCode(code);
-                    Log.e("Fingerprinter", "code " + code.length());
+                    Log.d("Fingerprinter", "code " + code.length());
 
                     List<Pair<Long,Long>> tuples = decodeFingerprint(code);
                     if(tuples.size() < 50)
@@ -344,7 +344,7 @@ public class AudioFingerprinter implements Runnable
 
     private static List<Pair<Long, Long>> decodeFingerprint(String code) throws IOException {
         byte[] bytes = Base64.decode(code.getBytes("UTF-8"), Base64.URL_SAFE);
-        Log.e("Fingerprinter", "decoded " + bytes.length);
+        Log.d("Fingerprinter", "decoded " + bytes.length);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         InflaterOutputStream dos = new InflaterOutputStream(baos);
@@ -352,7 +352,7 @@ public class AudioFingerprinter implements Runnable
         dos.finish();
         dos.flush();
         byte[] deflated = baos.toByteArray();
-        Log.e("Fingerprinter", "decompressed " + deflated.length);
+        Log.d("Fingerprinter", "decompressed " + deflated.length);
 
         int n = deflated.length / 10;
         int split = n*5;
