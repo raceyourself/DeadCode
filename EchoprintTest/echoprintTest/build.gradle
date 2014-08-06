@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "edu.gvsu.masl"
-        minSdkVersion 11
-        targetSdkVersion 11
+        minSdkVersion 14
+        targetSdkVersion 19
     }
 
     buildTypes {

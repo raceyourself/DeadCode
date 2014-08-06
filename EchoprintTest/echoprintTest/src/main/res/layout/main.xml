@@ -5,14 +5,21 @@
     android:layout_height="fill_parent"
     >
 <Button 
-	android:text="Start" 
-	android:id="@+id/recordButton" 
+	android:text="Listen"
+	android:id="@+id/listenButton"
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content" 
 	android:layout_gravity="center_vertical|center_horizontal|center"
 />
-<TextView 
-	android:text="Idle..." 
+    <Button
+        android:text="Record"
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center_horizontal|center"
+        />
+<TextView
+	android:text="Idle..."
 	android:paddingTop="50px"
 	android:textAppearance="?android:attr/textAppearanceLarge" 
 	android:layout_height="wrap_content" 
@@ -20,4 +27,12 @@
 	android:layout_width="wrap_content"
 	android:layout_gravity="center_vertical|center_horizontal|center"
 />
+<ImageView
+    android:id="@+id/progress"
+    android:src="@drawable/icon"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginTop="10dp"
+    />
 </LinearLayout>
